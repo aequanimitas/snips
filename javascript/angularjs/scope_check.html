@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="bower_components/angular/angular.js"></script>
+  <title>Understanding $scopes</title>
+  
+</head>
+<body ng-app="app">
+  <span ng-controller="ParentController">Parent Controller: {{name}}</span>
+  <span ng-controller="ChildController">Child Controller: {{name}}</span>
+
+  <script>
+    // modules are containers for the different parts of your app
+    // this helps with the seperation of functionalities of your application
+    var app = angular.module('app', []);
+    app.controller("ParentController", function($scope) {
+      $scope.name = "Hec";
+    });
+    app.controller("ChildController", function($scope) {
+    });
+  </script>
+</body>
+</html>

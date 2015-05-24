@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Demo">
+<head>
+  <meta charset="UTF-8">
+  <script src="js/angular.js"></script>
+  <title>Structuring $http requests</title>
+</head>
+<body ng-controller="DemoController">
+  <h1>Using the $http service in AngularJS to make requests</h1>
+
+  <ul>
+    <li ng-repeat="friend in friends">
+      {{friend.name}}
+      (<a href="" ng-click="removeFriend( friend )">delete</a>)
+    </li>
+  </ul>
+  <script>
+    var app = angular.module("Demo", []);
+
+  </script>
+</body>
+</html>

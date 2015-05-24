@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Directives, Controllers or Services</title>
+  <script src="js/angular.js"></script>
+</head>
+<body ng-app="BookModule">
+
+<script>
+  var module = angular.module('BookModule', []);
+
+  // services are basically Angualr's singletons, get passed around frequently
+  // made sure that you deal with the same object each time
+  // this is also how you share data between chunks of code in your app
+
+  module.service('Book', ['$rootScope', function($rootScope){
+    var service = {
+      books: [
+        { title: 'Getting Things Done', author: 'David Allen'},
+        { title: 'The Hobbit', author: 'J.R.R. Tolkien'}
+      ],
+      addBook: function( book ) {
+        service.books.push( book );
+        $rootScope.$broadcast( 'books.update' );
+      }
+    };
+
+    return service;
+  }]);
+
+  var ctrl = ['$scope', 'Book', function(scope, Book){
+    scope.$on( 'books.update', function(event){
+       console.log(Book.books);
+       scope.books = Book.books;
+    });
+
+    scope.books = Book.books;
+  }];
+
+  module.controller( "books.list", ctrl);
+
+  // directives, this is where the application's complexity is contained
+  // powerful with working with DOM
+
+  module.directive( "addBookButton", ['Book', function(Book){
+     return {
+       restrict: "A",
+       link: function( scope, element, attrs ){
+         element.bind('click', function (){
+           console.log('Hi');
+           Book.addBook({ title: 'Star Wars', author: 'George Lucas'});
+           //
+           scope.$apply();
+         });
+       }
+     }
+  }]);
+</script>
+<button add-book-button>Add Book</button>
+<ul ng-controller="books.list">
+  <li ng-repeat="book in books">
+    Title: {{book.title}} | Author: {{book.author}}
+  </li>
+</ul>
+</body>
+</html>
