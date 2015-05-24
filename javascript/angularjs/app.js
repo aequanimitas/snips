@@ -1,5 +1,4 @@
 'use strict'
 
-console.log(angular);
-
-angular.module('angularSnippetsApp', []);
+angular.module('angularSnippetsApp', [])
+;
