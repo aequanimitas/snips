@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    clienPath: 'client',
     sass: {
       options: {
         style: 'expanded',
@@ -9,7 +10,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // for simplicity's sake
-          'main.css': 'main.scss'
+          'client/app/app.css': 'client/app/app.scss'
         }
       }
     },
@@ -18,13 +19,13 @@ module.exports = function(grunt) {
         livereload: true
       },
       css: {
-        files: ['main.scss'],
+        files: ['client/app/app.scss', 'client/app/sidebar.scss'],
         tasks: ['sass']
       },
       // watch html files too, simple layout for now
       // expound later for sections of snippets
       html: {
-        files: ['*.html'],
+        files: ['*.html', 'client/*.html', 'partials/*/**.html'],
       },
       js: {
         files: ['*.js'],

@@ -3,3 +3,4 @@ vendor
 bower_components
 .sass-cache
 .bundle
+*.swp
