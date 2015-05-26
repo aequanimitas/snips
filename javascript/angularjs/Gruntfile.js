@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    clienPath: 'client',
+    clientPath: 'client',
     sass: {
       options: {
         style: 'expanded',
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     },
     watch: {
       options: {
-        livereload: true
+        livereload: 55967
       },
       css: {
         files: ['client/app/app.scss', 'client/app/sidebar.scss'],
@@ -43,7 +43,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.registerTask('default', [
     'connect:server',
-    'watch']
-    )};
+    'watch'
+  ])};

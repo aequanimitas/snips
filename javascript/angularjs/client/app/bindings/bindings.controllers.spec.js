@@ -10,9 +10,4 @@ describe('Submodule: Bindings - ', function(){
     });
   });
 
-  describe('Controller', function(){
-    it('should have tests', function(){
-      expect(false).toBe(true);
-    });
-  });
 });
