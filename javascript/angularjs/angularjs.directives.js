@@ -3,6 +3,6 @@ angular.module('DirectiveBasicsApp')
 .directive('supermanok', function(){
   return {
     restrict: "E",
-    templateUrl: "angularjs.directives.supermanok.html"
+    template: "<span>supermanok</span>"
   };
 });
