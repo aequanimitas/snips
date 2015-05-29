@@ -19,7 +19,12 @@ module.exports = function(config) {
       'client/bower_components/angular-route/angular-route.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'client/app/app.js',
-      'client/app/**/*.js'
+      'client/app/**/*.js',
+
+       // directiveBasicsApp
+      'angularjs.directives.js',
+      'angularjs.directives.spec.js',
+      'angularjs.directives.supermanok.html'
     ],
 
 
@@ -31,6 +36,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'angularjs.directives.supermanok.html': 'ng-html2js'
     },
 
 
@@ -59,7 +65,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode

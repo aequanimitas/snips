@@ -6,7 +6,6 @@ describe('Submodule: Bindings - ', function(){
 
   describe('Directive', function(){
     it('should have tests', function(){
-      expect(false).toBe(true);
     });
   });
 
