@@ -22,8 +22,8 @@ module.exports = function(config) {
       'client/app/**/*.js',
 
        // directiveBasicsApp
-      'angularjs.directives.js',
-      'angularjs.directives.spec.js',
+      'angularjs.directives.supermanok.js',
+      'angularjs.directives.supermanok.spec.js',
       'angularjs.directives.supermanok.html'
     ],
 
