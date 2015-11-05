@@ -4,3 +4,7 @@ bower_components
 .sass-cache
 .bundle
 *.swp
+bin/
+include/
+pip-selfcheck.json
+lib/
