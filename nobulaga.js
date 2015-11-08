@@ -1,0 +1,1 @@
+(function(blah){w=window,d=document;x=d.getElementsByClassName('yt-shelf-grid-item');w.addEventListener('scroll',function(){Array.prototype.filter.call(x,function(y){cond=y.innerHTML.indexOf(blah)>-1;if(cond)y.style.display='none';return cond;})})})('eatbulaga1979');
