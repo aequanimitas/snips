@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     },
     watch: {
       options: {
-        livereload: 55967
+        livereload: true
       },
       css: {
         files: ['client/app/app.scss', 'client/app/sidebar.scss'],
