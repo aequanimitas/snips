@@ -1,0 +1,9 @@
+{
+  "qoutmark": "single",
+  "globals": {
+    "angular": true,
+    "define": true,
+    "beforeEach": true,
+    "it": true
+  }
+}
