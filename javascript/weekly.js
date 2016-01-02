@@ -1,21 +1,36 @@
-// for go weekly
-var links = document.getElementsByClassName('main');
-[].forEach.call(links, function(e) {
-  console.log(`${e.innerHTML} - ${e.href}`);
-}
-//// gmail version
-[].forEach.call(tables.getElementsByTagName('a'), function(e) { console.log(`${e.innerHTML} - ${e.href}`); })
-//
+var links = function(rgx) {
+  var tuts = [].filter.call(document.getElementsByTagName('a'), function(e) {
+    return rgx.test(e.href);
+  });
+  tuts = tuts.map(function(e) {
+    return `${e.innerHTML} - ${e.href}`;
+  });
+  return tuts;
+};
 
-// for node weekly
-// you still need a UL handler
-var trimmedTables = [].slice.call(document.getElementsByTagName('table'), 6);
+(function(console){
 
-trimmedTables[0].children[0].children[0].children[0].children[0].children[0].innerHTML
-var tt = trimmedTables.filter(function(e,i) { if (i == 0) { return e } else { if (i % 2 === 0) { return e } } });
-var tableLinks = tt.map(function(e) { return e.getElementsByTagName('a') })
-tableLinks.forEach(function(e) {
-  console.log(`${e[0].innerHTML} - ${e.href}`);
-});
-var uls	= [].slice.call(document.getElementsByTagName('ul'), 1)
-uls[0].getElementsByTagName('a')
+  console.save = function(data, filename){
+
+    if(!data) {
+      console.error('Console.save: No data')
+      return;
+    }
+
+    if(!filename) filename = 'console.json'
+
+    if(typeof data === "object"){
+      data = JSON.stringify(data, undefined, 4)
+    }
+
+    var blob = new Blob([data], {type: 'text/json'}),
+        e    = document.createEvent('MouseEvents'),
+        a    = document.createElement('a')
+
+    a.download = filename
+    a.href = window.URL.createObjectURL(blob)
+    a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+    a.dispatchEvent(e)
+  }
+})(console);
