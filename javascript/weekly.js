@@ -3,7 +3,7 @@ var links = function(rgx) {
     return rgx.test(e.href);
   });
   tuts = tuts.map(function(e) {
-    return `${e.innerHTML} - ${e.href}`;
+    return `- ${e.innerHTML} -- ${e.href}`;
   });
   return tuts;
 };
@@ -34,3 +34,13 @@ var links = function(rgx) {
     a.dispatchEvent(e)
   }
 })(console);
+
+function createFile(pttrn) {
+  var fileDate = document.getElementsByClassName('g3')[0].innerHTML.split('/')
+  fileDate[1] = fileDate[1] < 10 ? '0' + fileDate[1] : fileDate[1];
+  var fileName = document.getElementsByClassName('gD')[0].innerHTML.replace(' ','').toLowerCase() + 
+                 '_' + 
+                 fileDate.join('') + '.md';
+  console.save(links(pttrn).join("\r\n"), fileName);
+  return fileName;
+}
