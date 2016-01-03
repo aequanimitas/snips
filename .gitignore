@@ -8,3 +8,4 @@ bin/
 include/
 pip-selfcheck.json
 lib/
+hello_world.out
