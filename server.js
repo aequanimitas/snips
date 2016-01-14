@@ -2,6 +2,8 @@ var express = require('express');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var fs = require('fs');
+var url = require('url');
+var proxy = require('proxy-middleware');
 var app = express();
 
 var config = require('./webpack.config');
@@ -11,7 +13,7 @@ var routes = {
   react: require('./routes/react')
 };
 
-app.use(express.static('dist'));
+app.use('/dist', proxy(url.parse('http://localhost:'+WPPORT)));
 app.get('/', function(req, res) {
   var index = fs.readFileSync('./index.html', 'utf8');
   res.send(index);
