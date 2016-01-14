@@ -13,6 +13,11 @@ config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 var compiler = webpack(config);
 
-var server = new WebpackDevServer(webpack(config));
+var server = new WebpackDevServer(webpack(config), {
+  hot: true, // is this redundant?
+  stats: {
+    colors: true
+  }
+});
 
 server.listen(PORT);
