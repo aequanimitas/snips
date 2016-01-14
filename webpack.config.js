@@ -2,16 +2,23 @@ var path = require('path');
 
 module.exports = {
   entry: [
-    './src/client.js'
+    './src/index.js'
   ],
   output: {
-    filename: './bundle.js',
-    path: path.resolve(__dirname, 'public')
+    filename: 'bundle.js',
+    path: __dirname + '/dist',
+    publicPath: '/dist/'
   },
   module: {
     loaders: [
-      { test: /\.css$/, loader: "style-loader!css-loader" }
-    ]
+      { test: /\.css$/, loader: "style!css" },
+      { 
+        test: /\.jsx?$/, 
+        loader: 'babel',
+        exclude: /node_modules/,
+        query: { presets: ['react', 'es2015'] }
+       }
+     ]
   },
   plugins: []
 }
