@@ -28,12 +28,15 @@ config.entry.unshift(
   'webpack/hot/dev-server',
   `webpack-dev-server/client?http://localhost:${WPPORT}`
 );
+
+// using hot middleware 
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 var compiler = webpack(config);
 
 var wpdServer = new WebpackDevServer(webpack(config), {
-  hot: true, // is this redundant?
+  hot: true, // is this redundant?,
+  contentBase: './dist',
   proxy: {
     '*': 'http://localhost:' + PORT
   },
