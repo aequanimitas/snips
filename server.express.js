@@ -11,7 +11,7 @@ var routes = {
   react: require('./routes/react')
 };
 
-app.use(express.static('public'));
+app.use(express.static('dist'));
 app.get('/', function(req, res) {
   var index = fs.readFileSync('./index.html', 'utf8');
   res.send(index);
@@ -26,7 +26,7 @@ app.listen(PORT, function() {
 // 
 config.entry.unshift(
   'webpack/hot/dev-server',
-  `webpack-dev-server/client?http://localhost:${PORT}`
+  `webpack-dev-server/client?http://localhost:${WPPORT}`
 );
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
