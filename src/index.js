@@ -1,4 +1,4 @@
-require('../node_modules/purecss/build/pure.css');
+import 'purecss/build/pure.css';
 require('../static/css/main.css');
 
 import React from 'react';
