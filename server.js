@@ -7,7 +7,7 @@ var app = express();
 var compiler = webpack(config);
 
 app.use(webpackDevMiddleware(compiler, {
-  noInfo: true, stats: { colors: true }, publicPath: config.out.publicPath
+  noInfo: true, stats: { colors: true }, publicPath: config.output.publicPath
 }));
 
 app.use(webpackHotMiddleware(compiler));
