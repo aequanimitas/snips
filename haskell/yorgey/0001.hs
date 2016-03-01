@@ -74,3 +74,9 @@ lastDigit :: Integer -> Integer
 lastDigit n
   | length(show n) == 1 = n
   | otherwise           = read([last(show n)])::Integer
+
+dropLastDigit :: Integer -> Integer
+dropLastDigit n
+  | length (show n) == 1 = 0
+  | length (show n) == 0 = 0
+  | otherwise            = read(init (show n))::Integer
