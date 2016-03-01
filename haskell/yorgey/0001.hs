@@ -55,3 +55,22 @@ ex05 = mod 19 3
 ex06 = 19 `mod` 3
 ex07 = 7 ^ 222
 ex08 = (-3) * (-7)
+ex09 = i `div` i
+ex10 = 12 `div` 5
+ex11 = True && False
+ex12 = not (False || True)
+ex13 = ('a' == 'a')
+ex14 = (16 /= 3)
+ex15 = (5 > 3) && ('p' <= 'q')
+ex16 = "Haskell" > "C++"
+
+-- Basic functions
+sumtorial :: Integer -> Integer
+sumtorial 0 = 0
+sumtorial n = n + sumtorial (n - 1)
+
+-- trying hw
+lastDigit :: Integer -> Integer
+lastDigit n
+  | length(show n) == 1 = n
+  | otherwise           = read(tail(show n))::Integer
