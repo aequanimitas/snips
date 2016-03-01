@@ -73,4 +73,4 @@ sumtorial n = n + sumtorial (n - 1)
 lastDigit :: Integer -> Integer
 lastDigit n
   | length(show n) == 1 = n
-  | otherwise           = read(tail(show n))::Integer
+  | otherwise           = read([last(show n)])::Integer
