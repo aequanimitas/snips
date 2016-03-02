@@ -129,3 +129,9 @@ doubleEveryOther n
   | length(n) == 1           = n
   | otherwise                = head(n) : (head(tail n) * 2) : doubleEveryOther (tail(tail n))
 
+-- exercise 4
+sumDigits :: [Integer] -> Integer
+sumDigits n
+  | n == []          = 0
+  | length(show(head n)) > 1 = read([head(show(head n))]) + read(tail(show(head n))) + sumDigits (tail n)
+  | otherwise        = head n + sumDigits(tail n)
