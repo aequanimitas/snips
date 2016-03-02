@@ -113,3 +113,13 @@ dropLastDigit n
   | length (show n) == 1 = 0
   | length (show n) == 0 = 0
   | otherwise            = read(init (show n))::Integer
+
+-- exercise 2
+-- convert to string first
+-- reverse
+-- then take last
+toRevDigits :: Integer -> [Integer]
+toRevDigits n
+  | n <= 0                = []
+  | length(show(n)) == 1  = [n]
+  | otherwise             = (read([last(show n)])::Integer) : toRevDigits (read(init(show n))::Integer)
