@@ -69,6 +69,39 @@ sumtorial :: Integer -> Integer
 sumtorial 0 = 0
 sumtorial n = n + sumtorial (n - 1)
 
+hailstone :: Integer -> Integer
+hailstone n
+  | n `mod` 2 == 0 = n `div` 2
+  | otherwise      = 3 * n + 1
+
+foo :: Integer -> Integer
+foo 0 = 16
+foo 1
+  | "Haskell" > "C++" = 3
+  | otherwise         = 4
+foo n
+  | n < 0             = 0
+  | n `mod` 17 == 2   = -43
+  | otherwise         = n + 3
+
+-- Booleans
+isEven :: Integer -> Bool
+isEven n
+  | n `mod` 2 == 0 = True
+  | otherwise      = False
+
+isEvenSimpler :: Integer -> Bool
+isEvenSimpler n = if n `mod` 2 == 0 then True else False
+
+-- pairs
+sumPair :: (Int, Int) -> Int
+sumPair (x,y) = x + y
+
+-- using functions and multiple arguments
+f :: Int -> Int -> Int -> Int
+f x y z = x + y + z
+ex17 = f 3 17 8
+
 -- trying hw
 lastDigit :: Integer -> Integer
 lastDigit n
