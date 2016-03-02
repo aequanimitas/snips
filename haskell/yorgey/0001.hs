@@ -131,9 +131,9 @@ toRevDigits n
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther n
   | length(n) <= 1           = n
-  | otherwise                = head(n) : (head(tail n) * 2) : doubleEveryOther (tail(tail n))
+  | otherwise                = head(n):(head(tail n) * 2):doubleEveryOther(tail(tail n))
 
-doubleEveryOtherBaby x = if length(x) <= 1 then x else head(x):(head(tail x) * 2) : doubleEveryOtherBaby (tail(tail x))
+doubleEveryOtherBaby x = if length(x) <= 1 then x else head(x):(head(tail x) * 2):doubleEveryOtherBaby (tail(tail x))
 
 -- exercise 4
 sumDigits :: [Integer] -> Integer
