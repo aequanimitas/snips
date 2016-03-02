@@ -111,8 +111,7 @@ lastDigit n
 -- exercise 1
 dropLastDigit :: Integer -> Integer
 dropLastDigit n
-  | length (show n) == 1 = 0
-  | length (show n) == 0 = 0
+  | length (show n) <= 1 = 0
   | otherwise            = read(init (show n))::Integer
 
 -- exercise 2
@@ -125,8 +124,7 @@ toRevDigits n
 -- exercise 3
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther n
-  | n == []                  = []
-  | length(n) == 1           = n
+  | length(n) <= 1           = n
   | otherwise                = head(n) : (head(tail n) * 2) : doubleEveryOther (tail(tail n))
 
 -- exercise 4
