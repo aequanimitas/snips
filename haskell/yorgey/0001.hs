@@ -1,3 +1,4 @@
+import Data.List
 -- Declarations and variables
 x :: Int
 x = 3
@@ -129,8 +130,8 @@ doubleEveryOther n
 
 -- exercise 4
 sumDigits :: [Integer] -> Integer
+sumDigits [] = 0
 sumDigits n
-  | n == []                  = 0
   | length(show(head n)) > 1 = read([head(show(head n))]) + read(tail(show(head n))) + sumDigits (tail n)
   | otherwise                = head n + sumDigits(tail n)
 
