@@ -139,8 +139,8 @@ doubleEveryOtherBaby x = if length(x) <= 1 then x else head(x):(head(tail x) * 2
 sumDigits :: [Integer] -> Integer
 sumDigits [] = 0
 sumDigits n
-  | length(show(head n)) > 1 = read([head(show(head n))]) + read(tail(show(head n))) + sumDigits (tail n)
-  | otherwise                = head n + sumDigits(tail n)
+  | length(show(head n)) > 1 = sum[read([head(show(head n))]), read(tail(show(head n))), sumDigits (tail n)]
+  | otherwise                = sum[head n, sumDigits(tail n)]
 
 -- luhn
 -- reverse
