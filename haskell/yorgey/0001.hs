@@ -108,6 +108,7 @@ lastDigit n
   | length(show n) == 1 = n
   | otherwise           = read([last(show n)])::Integer
 
+-- exercise 1
 dropLastDigit :: Integer -> Integer
 dropLastDigit n
   | length (show n) == 1 = 0
@@ -115,11 +116,16 @@ dropLastDigit n
   | otherwise            = read(init (show n))::Integer
 
 -- exercise 2
--- convert to string first
--- reverse
--- then take last
 toRevDigits :: Integer -> [Integer]
 toRevDigits n
   | n <= 0                = []
   | length(show(n)) == 1  = [n]
   | otherwise             = (read([last(show n)])::Integer) : toRevDigits (read(init(show n))::Integer)
+
+-- exercise 3
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther n
+  | n == []                  = []
+  | length(n) == 1           = n
+  | otherwise                = head(n) : (head(tail n) * 2) : doubleEveryOther (tail(tail n))
+
