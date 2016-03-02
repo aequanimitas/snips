@@ -132,6 +132,13 @@ doubleEveryOther n
 -- exercise 4
 sumDigits :: [Integer] -> Integer
 sumDigits n
-  | n == []          = 0
+  | n == []                  = 0
   | length(show(head n)) > 1 = read([head(show(head n))]) + read(tail(show(head n))) + sumDigits (tail n)
-  | otherwise        = head n + sumDigits(tail n)
+  | otherwise                = head n + sumDigits(tail n)
+
+-- luhn
+-- reverse
+-- double
+-- sumDigits
+luhn :: Integer -> Bool
+luhn n = if sumDigits(doubleEveryOther (toRevDigits n)) `mod` 10 == 0 then True else False
