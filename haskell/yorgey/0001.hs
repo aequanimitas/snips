@@ -103,6 +103,13 @@ f :: Int -> Int -> Int -> Int
 f x y z = x + y + z
 ex17 = f 3 17 8
 
+-- missed this part, pattern matching with lists
+intListLength :: [Integer] -> Integer
+-- basis case, list is empty
+intListLength [] = 0
+-- element x looks like consed into a list
+intListLength (_:xs) = 1 + intListLength xs
+
 -- trying hw
 lastDigit :: Integer -> Integer
 lastDigit n
