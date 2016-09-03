@@ -1,0 +1,23 @@
+{
+  "name": "caching-ajax-requests-fetch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch:js": "watchify static/main.js -o public/index.js",
+    "watch:all": "browser-sync start --proxy=http://localhost:3000 --files 'public/**/*.js'",
+    "build:js": "browserify static/js/main.js | uglifyjs -c -m > assets/js/index.js",
+    "build": "npm run build:sass & npm run build:js",
+    "watch": "npm run watch:all & npm run watch:js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.14.3",
+    "browserify": "^13.1.0",
+    "express": "^4.14.0",
+    "node-fetch": "^1.6.0",
+    "watchify": "^3.7.0"
+  }
+}

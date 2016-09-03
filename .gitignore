@@ -12,3 +12,4 @@ hello_world.out
 dist/
 *.css*
 elm-stuff/
+npm-debug.log
