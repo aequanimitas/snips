@@ -1,17 +1,17 @@
 var test = require('tape');
 
 
-function converter(arg) {
-  var t = 0;
-  arg.split(" ").forEach(function(n) {
-    if (n.indexOf('.') === -1) {
-      t = parseFloat(n); 
-    }
-  })
+function numHandler(n) {
+  var t = (n.indexOf('.') !== -1) ? parseFloat(n) : parseInt(n);
   return t;
 }
 
-test('converts int', function(t) {
-  t.plan(1)
-  t.deepEqual(1, converter('1'), 'converts to int')
+test('convert numbers', function(t) {
+  t.plan(2);
+  t.deepEqual(1, numHandler('1'), 'converts to int');
+  t.equal(1.1, numHandler('1.1'), 'converts to float');
+});
+
+test('isSymbol', function(t) {
+
 })
