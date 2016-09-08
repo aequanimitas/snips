@@ -4,7 +4,7 @@ function fib(x) {
   else return fib(x -2) + fib(x - 1);
 }
 
-function* gen(x) {
+function *gen(x) {
   var a = 0,
       b = 1,
       temp = 1;
