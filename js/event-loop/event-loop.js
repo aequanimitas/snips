@@ -35,15 +35,30 @@ var x = function(cb) {
 }
 
 setTimeout(function() {
-  console.log('this callback function is pushed immediately at the end queue / task queue');
+  console.log('This callback function is pushed immediately at the queue / task queue. The threshold passed is larger the 32');
 }, 2147483648);
 
 setTimeout(function() {
   console.log('TIMER phase: inside setTimeout, negative int argument.');
 }, -1);
 
-console.log('normal function call');
+function y() {
+  console.log('normal function call');
+}
 
 x(function() {
   console.log('done');
 });
+
+y();
+
+/// visualizing call stack
+
+var callStackCounter = 0;
+
+function callStackSize() {
+  console.log(callStackCounter++);
+  callStackSize();
+}
+
+callStackSize();
