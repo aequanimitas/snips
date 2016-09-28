@@ -1,4 +1,5 @@
-var fs = require('fs');
+const fs = require('fs'),
+      assert = require('assert');
 
 process.nextTick(function() {
   console.log('inside nextTick');
@@ -54,11 +55,18 @@ y();
 
 /// visualizing call stack
 
-var callStackCounter = 0;
 
-function callStackSize() {
-  console.log(callStackCounter++);
-  callStackSize();
+const callStackSize = function() {
+  var callStackCounter = 0;
+
+  return function y() {
+    try {
+      callStackCounter++;
+      y();
+    } catch (e) {
+      console.log('Max frame size:', callStackCounter);
+    }
+  }
 }
 
-callStackSize();
+callStackSize()();
