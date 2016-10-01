@@ -13,3 +13,4 @@ dist/
 *.css*
 elm-stuff/
 npm-debug.log
+Elixir.Beer.beam
