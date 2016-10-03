@@ -30,7 +30,7 @@ end
 
 ExUnit.start
 
-defmodule AssertionTest do
+defmodule BeerTest do
   use ExUnit.Case, async: true
 
   test 'redhorse' do
@@ -59,5 +59,24 @@ defmodule AssertionTest do
 
   test 'ror' do
     assert Beer.abv(:ror) == "Unknown beer: ror"
+  end
+end
+
+defmodule NoobPatternMatchingTest do
+  use ExUnit.Case, async: true
+  test "unpack / destructure" do
+    # constants
+    [a, b] = [10, 20]
+    assert 10 == a
+    assert 20 == b
+  end
+
+  test "Matching errors" do
+    assert_raise MatchError, fn -> 
+      [a,1,c] = [1,2,3]
+    end
+  rescue
+    error in [ExUnit.AssertionError] ->
+      "The second term in the list, which is a constant, should match the corresponding element on the right side"
   end
 end
