@@ -27,3 +27,37 @@ defmodule Beer do
     "Unknown beer: #{name}" 
   end
 end
+
+ExUnit.start
+
+defmodule AssertionTest do
+  use ExUnit.Case, async: true
+
+  test 'redhorse' do
+    assert Beer.abv(:redhorse) == "6.9%"
+  end
+
+  test 'pilsen' do
+    assert Beer.abv(:pilsen) == "5%"
+  end
+
+  test 'strongice' do
+    assert Beer.abv(:strongice) == "6.3%"
+  end
+
+  test 'flavored' do
+    assert Beer.abv(:flavored) == "3%"
+  end
+
+  test 'cerveza negra' do
+    assert Beer.abv(:cervezanegra) == "3%"
+  end
+
+  test 'light' do
+    assert Beer.abv(:light) == "5%"
+  end
+
+  test 'ror' do
+    assert Beer.abv(:ror) == "Unknown beer: ror"
+  end
+end
