@@ -1,6 +1,8 @@
 defmodule ColorConverter do
   def rgba(hex) do
     Base.decode16(hex) |> elem(1) |> :binary.decode_unsigned
+    # SO alternative using shebang
+    # hex |> Base.decode16! |> :binary.decode_unsigned
   end
 end
 

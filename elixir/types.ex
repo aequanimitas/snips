@@ -4,7 +4,7 @@ defmodule Types do
   use ExUnit.Case, async: true
 
   test "Numbers" do
-    assert_raise SyntaxError, fn -> x = .0000000000000000000000000000023432432432432234232324 end
+    # assert_raise SyntaxError, fn -> x = .0000000000000000000000000000023432432432432234232324 end
     # 64-bit IEEE 754-1985 'double-precision' representation
     assert 0.0000000000000000012780816729618276896 == 0.00000000000000000127808167296182768961239867679641
   end
@@ -28,5 +28,10 @@ defmodule Types do
     # init list with a million elements
     a = Enum.map 1..1_000_000, fn b -> b end
     assert List.last(a) == 1_000_000
+  end
+
+  test "Binaries" do
+    assert '😀' == [128512]
+    # how do you test the zero-width joiner?    
   end
 end
