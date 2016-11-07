@@ -3,8 +3,14 @@ ExUnit.start
 defmodule Types do
   use ExUnit.Case, async: true
 
+  test "Numbers" do
+    assert_raise SyntaxError, fn -> x = .0000000000000000000000000000023432432432432234232324 end
+    # 64-bit IEEE 754-1985 'double-precision' representation
+    assert 0.0000000000000000012780816729618276896 == 0.00000000000000000127808167296182768961239867679641
+  end
+
   test "Aliases and atoms" do
-    assert ThisIsAnAtom == Elixir.ThisIsAnAtom
+    assert ThisIsAnAtom == Elixir.ThisIsAnAtom, "Comparing atoms and aliases"
     assert :Lol != Elixir.Lol
     # will this clash?
     assert Lol == Elixir.Lol
