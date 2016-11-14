@@ -75,18 +75,12 @@ defmodule NoobPatternMatchingTest do
     assert_raise MatchError, fn -> 
       [a,1,c] = [1,2,3]
     end
-  rescue
-    error in [ExUnit.AssertionError] ->
-      "The second term in the list, which is a constant, should match the corresponding element on the right side"
   end
 
   test "Variables bind once (per match)" do
     assert_raise MatchError, fn -> 
       [a, a] = [1,2]
     end
-  rescue
-    error in [ExUnit.AssertionError] ->
-      "Variables bind once per match, or per expression"
   end
 
   test "Pin operator" do
@@ -94,9 +88,6 @@ defmodule NoobPatternMatchingTest do
       a = 10
       [^a, b] = [1,2]
     end
-  rescue
-    error in [ExUnit.AssertionError] ->
-      "Nothing here"
   end
 
   test "Variables can be re-binded on the next expression" do
