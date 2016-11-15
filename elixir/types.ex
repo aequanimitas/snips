@@ -1,5 +1,39 @@
 ExUnit.start
 
+defmodule ListFun do
+
+  @doc """
+  Naive implementation of flatten. Base case is if passed with [[[[]]]], it should give out
+  an empty list
+  """
+  def flatten(lst) do
+    flatten(lst, [])
+  end
+
+  defp flatten([], accu), do: Enum.reverse(accu)
+
+  defp flatten([head|tail], accu) do
+    if is_list(head) do
+      flatten(tail, flatten(head, []) ++ accu)
+    else
+      flatten(tail, [head] ++ accu)
+    end
+  end
+
+  @doc """
+  Naive implementation for length
+  """
+  def len(lst) do
+    len(lst, 0)
+  end
+
+  defp len([], accu), do: accu
+
+  defp len([head|tail], accu) do
+    len(tail, accu + 1)
+  end
+end
+
 defmodule Types do
   use ExUnit.Case, async: true
 
@@ -36,6 +70,16 @@ defmodule Types do
     # init list with a million elements
     a = Enum.map 1..1_000_000, fn b -> b end
     assert List.last(a) == 1_000_000
+  end
+
+  test "List / Enum exploration" do
+    assert ListFun.flatten([3]) == [3]
+    assert ListFun.flatten([[3]]) == [3]
+    assert ListFun.flatten([[[3]]]) == [3]
+    assert ListFun.flatten([[3], 3]) == [3, 3]
+    assert ListFun.flatten([[3], [[4]]]) == [3, 4]
+    assert ListFun.flatten([[3], [[4]], [[[[[[2]]] | [3]]]]]) == [3, 4, 3, 2]
+    assert ListFun.len([1,2,3,4]) == 4
   end
 
   test "Binaries" do
