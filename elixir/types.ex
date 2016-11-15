@@ -3,8 +3,12 @@ ExUnit.start
 defmodule ListFun do
 
   @doc """
-  Naive implementation of flatten. Base case is if passed with [[[[]]]], it should give out
-  an empty list
+  Naive implementation of flatten. Returns a single-level array (I don't know the technical term for this
+
+  ## Example
+  
+      iex> ListFun.flatten([[]])
+      []
   """
 
   @spec flatten(list()) :: list()
@@ -37,6 +41,21 @@ defmodule ListFun do
 
   defp len([head|tail], accu) do
     len(tail, accu + 1)
+  end
+
+  @doc """
+    Combine lists into ordered collection
+
+    ## Examples
+        
+        iex> ListFun.zip([1,2,3], ["a", "b", "c"])
+        [{1, "a"}, {2, "b"}, {3, "c"}]
+
+        iex> ListFun.zip([1,2,3], ["a", "b"])
+        [{1, "a"}, {2, "b"}, {3}]
+  """
+  def zip(lst) do
+    [{}]
   end
 end
 
@@ -86,6 +105,8 @@ defmodule Types do
     assert ListFun.flatten([[3], [[4]]]) == [3, 4]
     assert ListFun.flatten([[3], [[4]], [[2] | [[[3]]]]]) == [3, 4, 3, 2]
     assert ListFun.len([1,2,3,4]) == 4
+    assert is_tuple(hd(ListFun.zip([1,2,3,4]))) == true
+    assert is_list(ListFun.zip([1,2,3,4])) == true
   end
 
   test "Binaries" do
