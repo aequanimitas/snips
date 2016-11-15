@@ -6,6 +6,9 @@ defmodule ListFun do
   Naive implementation of flatten. Base case is if passed with [[[[]]]], it should give out
   an empty list
   """
+
+  @spec flatten(list()) :: list()
+
   def flatten(lst) do
     flatten(lst, [])
   end
@@ -14,7 +17,7 @@ defmodule ListFun do
 
   defp flatten([head|tail], accu) do
     if is_list(head) do
-      flatten(tail, flatten(head, []) ++ accu)
+      flatten(tail, flatten(head) ++ accu)
     else
       flatten(tail, [head] ++ accu)
     end
@@ -23,6 +26,9 @@ defmodule ListFun do
   @doc """
   Naive implementation for length
   """
+
+  @spec len(list()) :: number()
+
   def len(lst) do
     len(lst, 0)
   end
@@ -78,7 +84,7 @@ defmodule Types do
     assert ListFun.flatten([[[3]]]) == [3]
     assert ListFun.flatten([[3], 3]) == [3, 3]
     assert ListFun.flatten([[3], [[4]]]) == [3, 4]
-    assert ListFun.flatten([[3], [[4]], [[[[[[2]]] | [3]]]]]) == [3, 4, 3, 2]
+    assert ListFun.flatten([[3], [[4]], [[2] | [[[3]]]]]) == [3, 4, 3, 2]
     assert ListFun.len([1,2,3,4]) == 4
   end
 
