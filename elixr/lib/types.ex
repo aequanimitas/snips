@@ -20,10 +20,9 @@ defmodule ListFun do
   defp flatten([], accu), do: Enum.reverse(accu)
 
   defp flatten([head|tail], accu) do
-    if is_list(head) do
-      flatten(tail, flatten(head) ++ accu)
-    else
-      flatten(tail, [head] ++ accu)
+    case is_list head do
+      :true -> flatten(tail, flatten(head) ++ accu)
+      :false -> flatten(tail, [head] ++ accu)
     end
   end
 
