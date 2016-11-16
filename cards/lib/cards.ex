@@ -19,6 +19,15 @@ defmodule Cards do
     Enum.shuffle(deck) 
   end
 
+  @doc """
+    Determines where a deck contains a given card
+
+  ## Examples
+
+    iex> Cards.contains?(Cards.create_deck(), "Ace of Malunggay")
+    false  
+
+  """
   def contains?(deck, card) do
     Enum.member?(deck, card)
   end
@@ -28,10 +37,12 @@ defmodule Cards do
     how many cards should be in the hand
 
   ## Examples
+
     iex> deck = Cards.create_deck()
-    iex> {hand, deck} = Cards.create_deck(deck, 1) # for pusoy
+    iex> {hand, _deck} = Cards.deal(deck, 1) # for pusoy
     iex> hand
-    ["Eight of Diamonds"]
+    ["Ace of Spades"]
+
   """
   def deal(deck, hand_size) do
     # returns a tuple, { hand, deck }
