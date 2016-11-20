@@ -9,21 +9,44 @@ defmodule Discuss.TopicController do
   end
 
   def create(conn, %{"topic" => topic}) do
+    # pass empty struct
     changeset = Topic.changeset(%Topic{}, topic)
     case Repo.insert(changeset) do
-      {:ok, post} -> 
+      {:ok, _topic} -> 
         conn 
         |> put_flash(:info, "Topic Created")
         |> redirect(to: topic_path(conn, :index))
       {:error, changeset} -> 
         conn
         |> put_flash(:error, "Something went wrong")
-        |> render "new.html", changeset: changeset
+        |> render("new.html", changeset: changeset)
     end
   end
 
   def new(conn, _params) do
     changeset = Topic.changeset(%Topic{}, %{})
     render conn, "new.html", changeset: changeset
+  end
+
+  def update(conn, %{"id" => topic_id, "topic" => topic}) do
+
+    # topic is new changes
+    # how to migrate from old_topic into new one
+    changeset = Repo.get(Topic, topic_id) |> Topic.changeset(topic)
+
+    case Repo.update(changeset) do
+      {:ok, _topic} ->
+        conn
+        |> put_flash(:info, "Topic Updated")
+        |> redirect(to: topic_path(conn, :index))
+      {:error, changeset} ->
+        render conn, "edit.html", changeset: changeset
+    end
+  end
+
+  def edit(conn, %{"id" => topic_id}) do
+    topic = Repo.get(Topic, topic_id)
+    changeset = Topic.changeset(topic)
+    render conn, "edit.html", changeset: changeset, topic: topic
   end
 end
