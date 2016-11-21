@@ -14,20 +14,18 @@ defmodule Discuss.Router do
   end
 
   scope "/", Discuss do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser # Use the default browser stack, do some pre-processing on :browser pipeline
 
-    # get "/", TopicController, :index
-    # get "/topics/new", TopicController, :new
-    # post "/topics", TopicController, :create
-    # get "/topics/:id/edit", TopicController, :edit
-    # put "/topics/:id", TopicController, :update
-    # delete "/topics/:id", TopicController, :update
-
-    # assume the topic controller is setup properly, restful conventions
-    # omits the "topics" path if just "/"
     resources "/", TopicController
   end
 
+  # collection of urls, namespaced with auth
+  scope "/auth", Discuss do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request  # :request is done by ueberauth
+    get "/:provider/callback", AuthController, :callback
+  end
   # Other scopes may use custom stacks.
   # scope "/api", Discuss do
   #   pipe_through :api
