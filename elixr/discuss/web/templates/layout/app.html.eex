@@ -16,7 +16,20 @@
   <body>
     <div class="container">
       <nav class="light-blue">
-        <div class="nav-wrapper container"><a class="brand-logo" href="/topics/new">Discussions</a></div>
+        <div class="nav-wrapper container">
+          <a class="brand-logo" href="/">Discussions</a>
+          <ul class="right">
+            <%= if @conn.assigns[:user] do %>
+              <li>
+                <%= link "Logout", to: auth_path(@conn, :signout) %>  
+              </li>
+            <%= else %> 
+              <li>
+                <%= link "Login with github", to: auth_path(@conn, :request, "github") %>  
+              </li>
+            <%= end %> 
+          </ul>
+        </div>
       </nav>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
