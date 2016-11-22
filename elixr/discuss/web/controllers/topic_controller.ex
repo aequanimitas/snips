@@ -12,6 +12,11 @@ defmodule Discuss.TopicController do
     render conn, "index.html", topics: topics
   end
 
+  def show(conn, %{"id" => topic_id}) do
+    topic = Repo.get!(Topic, topic_id)
+    render conn, "show.html", topic: topic
+  end
+
   def create(conn, %{"topic" => topic}) do
     # pass empty struct
     # conn.assigns[:user] or conn.assigns.user
