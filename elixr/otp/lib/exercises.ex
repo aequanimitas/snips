@@ -1,18 +1,18 @@
-defmodule Exercises do
+defmodule Otp.Exercises do
 end
 
-defmodule Exercises.Two do
+defmodule Otp.Exercises.Two do
 
 end
 
-defmodule Exercises.Two.One do
+defmodule Otp.Exercises.Two.One do
   def sum([]), do: 0
   def sum([head | tail]) do
     head + sum(tail)
   end
 end
 
-defmodule Exercises.Two.Three do
+defmodule Otp.Exercises.Two.Three do
   @lst [1,[[2],3]]
   def with_pipe() do
     @lst |> List.flatten |> Enum.reverse |> Enum.map(fn(x) -> x * x end)
@@ -20,5 +20,11 @@ defmodule Exercises.Two.Three do
 
   def wo_pipe() do
     Enum.map(Enum.reverse(List.flatten(@lst)), fn(x) -> x * x end)
+  end
+end
+
+defmodule Otp.Exercises.Two.Four do
+  def translate(str) do
+    :crypto.hash(:md5, str)
   end
 end
