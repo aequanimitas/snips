@@ -1,4 +1,4 @@
-defmodule Otp.Exercises do
+defmodule Elixr.Otp.Exercises do
 end
 
 defmodule Otp.Exercises.Two do

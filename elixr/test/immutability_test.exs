@@ -1,6 +1,4 @@
-ExUnit.start
-
-defmodule Immutability do
+defmodule ImmutabilityTest do
   use ExUnit.Case, async: true
   test "Immutability understanding" do
     x = [1,2,3]

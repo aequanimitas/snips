@@ -1,4 +1,4 @@
-defmodule Otp.Metex.Worker do
+defmodule Elixr.Otp.Metex.Worker do
   def loop do
     receive do
       {sender_pid, location} ->

@@ -1,4 +1,4 @@
-defmodule Otp.SayHi do
+defmodule Elixr.Otp.SayHi do
   use GenServer
 
   def start_link do
