@@ -3,12 +3,12 @@ ExUnit.start
 defmodule Elixr.ListFun do
 
   @doc """
-  Naive implementation of flatten. Returns a single-level array (I don't know the technical term for this
+  Naive implementation of flatten. Returns a single-level array (I don't know the technical term for this)
 
-  ## Example
-  
-      iex> ListFun.flatten([[]])
+  ## Examples
+      iex> Elixr.ListFun.flatten([[]])
       []
+
   """
 
   @spec flatten(list()) :: list()
@@ -47,10 +47,10 @@ defmodule Elixr.ListFun do
 
     ## Examples
         
-        iex> ListFun.zip([1,2,3], ["a", "b", "c"])
+        iex> Elixr.ListFun.zip([1,2,3], ["a", "b", "c"])
         [{1, "a"}, {2, "b"}, {3, "c"}]
 
-        iex> ListFun.zip([1,2,3], ["a", "b"])
+        iex> Elixr.ListFun.zip([1,2,3], ["a", "b"])
         [{1, "a"}, {2, "b"}, {3}]
   """
   def zip(lst) do

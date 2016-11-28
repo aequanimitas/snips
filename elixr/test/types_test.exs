@@ -8,10 +8,10 @@ defmodule Types do
   end
 
   test "Aliases and atoms" do
-    assert ThisIsAnAtom == Elixir.ThisIsAnAtom, "Comparing atoms and aliases"
-    assert :Lol != Elixir.Lol
+    assert ThisIsAnAtom == Elixr.ThisIsAnAtom, "Comparing atoms and aliases"
+    assert :Lol != Elixr.Lol
     # will this clash?
-    assert Lol == Elixir.Lol
+    assert Lol == Elixr.Lol
     # but still an atom
     assert is_atom Lol
     # booleans are also atoms with values either true or false
@@ -37,15 +37,15 @@ defmodule Types do
   end
 
   test "List / Enum exploration" do
-    assert Elixir.ListFun.flatten([3]) == [3]
-    assert Elixir.ListFun.flatten([[3]]) == [3]
-    assert Elixir.ListFun.flatten([[[3]]]) == [3]
-    assert Elixir.ListFun.flatten([[3], 3]) == [3, 3]
-    assert Elixir.ListFun.flatten([[3], [[4]]]) == [3, 4]
-    assert Elixir.ListFun.flatten([[3], [[4]], [[2] | [[[3]]]]]) == [3, 4, 3, 2]
-    assert Elixir.ListFun.len([1,2,3,4]) == 4
-    assert is_tuple(hd(Elixir.ListFun.zip([1,2,3,4]))) == true
-    assert is_list(Elixir.ListFun.zip([1,2,3,4])) == true
+    assert Elixr.ListFun.flatten([3]) == [3]
+    assert Elixr.ListFun.flatten([[3]]) == [3]
+    assert Elixr.ListFun.flatten([[[3]]]) == [3]
+    assert Elixr.ListFun.flatten([[3], 3]) == [3, 3]
+    assert Elixr.ListFun.flatten([[3], [[4]]]) == [3, 4]
+    assert Elixr.ListFun.flatten([[3], [[4]], [[2] | [[[3]]]]]) == [3, 4, 3, 2]
+    assert Elixr.ListFun.len([1,2,3,4]) == 4
+    assert is_tuple(hd(Elixr.ListFun.zip([1,2,3,4]))) == true
+    assert is_list(Elixr.ListFun.zip([1,2,3,4])) == true
   end
 
   test "Binaries" do

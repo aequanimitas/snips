@@ -1,6 +1,6 @@
 # try sicp exercises using elixir
 
-defmodule Elixr.Range do
+defmodule Elixr.Recursion.Range do
   def add(x, y) do
     x + y
   end
