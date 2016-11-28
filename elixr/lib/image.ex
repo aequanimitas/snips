@@ -1,4 +1,4 @@
-defmodule Identicon.Image do
+defmodule Elixr.Identicon.Image do
   @moduledoc """
     Struct
 

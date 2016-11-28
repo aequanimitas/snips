@@ -1,24 +1,4 @@
 # Elixr
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add `elixr` to your list of dependencies in `mix.exs`:
-
-    ```elixir
-    def deps do
-      [{:elixr, "~> 0.1.0"}]
-    end
-    ```
-
-  2. Ensure `elixr` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:elixr]]
-    end
-    ```
-
+### Identicon
+Code for udemy elixir bootcamp
