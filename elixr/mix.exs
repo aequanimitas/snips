@@ -29,6 +29,7 @@ defmodule Elixr.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.9.0"},
+      {:ex_doc, "~> 0.12"},
       {:json,      "~> 0.3.0"}
     ]
   end
