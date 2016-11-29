@@ -30,6 +30,7 @@ defmodule Elixr.Mixfile do
     [
       {:httpoison, "~> 0.9.0"},
       {:ex_doc, "~> 0.12"},
+      {:timex, "~> 3.0"},
       {:json,      "~> 0.3.0"}
     ]
   end
