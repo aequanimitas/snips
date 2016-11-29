@@ -5,13 +5,14 @@ defmodule Elixr.Nba do
   end
 
   def init() do
-    scores(Timex.today)
+    url_for(Timex.today)
+    |> scores
     |> parse_results
     |> get_game_header
   end
 
-  def scores(%Date{month: m, year: y, day: d} = _dte) do
-    HTTPoison.request(:get, "http://stats.nba.com/stats/scoreboard/?LeagueId=00&DayOffset=0&GameDate=#{m}/#{d-1}/#{y}", "", [{"Referer", "https://stats.nba.com/scores/"}])
+  def scores(url) do
+    HTTPoison.request(:get, url, "", [{"Referer", "https://stats.nba.com/scores/"}])
   end
 
   defp parse_results(result) do
@@ -29,6 +30,10 @@ defmodule Elixr.Nba do
       end
     end
     Enum.map(rset, fn(rrow) -> Enum.into rrow, %{} end)
+  end
+
+  def url_for(%Date{month: m, year: y, day: d} = _dte) do
+    "http://stats.nba.com/stats/scoreboard/?LeagueId=00&DayOffset=0&GameDate=#{m}/#{d-1}/#{y}"
   end
 
   def get_game_header(%GameDay{data: data} = resultSets) do
