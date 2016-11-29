@@ -1,5 +1,9 @@
 defmodule Elixr.Nba do
 
+  defmodule GameDay do
+    defstruct [:games_list]
+  end
+
   defmodule Game do
     defstruct [
       :game_date, :game_sequence, :game_id, :game_status_id, :game_status,
@@ -14,6 +18,7 @@ defmodule Elixr.Nba do
     |> parse_results
     |> JSON.decode!
     |> games_today
+    |> show_games_list
   end
 
   def scores(%Date{month: m, year: y, day: d} = _dte) do
@@ -75,4 +80,10 @@ defmodule Elixr.Nba do
       wh_status: wh_status
     }
   end
+
+  def show_games_list(games) do
+    Enum.each games, fn(game) -> 
+      IO.puts " #{String.replace(game.game_code, "/", " ") }"
+    end
+  end 
 end
