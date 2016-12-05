@@ -12,12 +12,13 @@ defmodule ImmutabilityTest do
     z = fn ->
       # try to bind inside anon fn
       x = 1
+      x
     end
 
     # pass by value, but thinking in a "let" like binding
     # "b" exists until control is given back to the calling function
     a = fn(b) ->
-      b  = b ++ [3]
+      b ++ [3]
     end
 
     assert y.() != x

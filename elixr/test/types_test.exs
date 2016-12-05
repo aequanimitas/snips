@@ -8,32 +8,14 @@ defmodule Types do
   end
 
   test "Aliases and atoms" do
-    assert ThisIsAnAtom == Elixr.ThisIsAnAtom, "Comparing atoms and aliases"
     assert :Lol != Elixr.Lol
     # will this clash?
     assert Lol == Elixr.Lol
     # but still an atom
-    assert is_atom Lol
     # booleans are also atoms with values either true or false
-    assert is_atom false
-    assert is_atom nil
     assert :true == true
     assert :false == false
     assert nil == :nil
-  end
-
-  test "Tuples" do
-    assert elem({10, 20}, 1) == 20
-    # throws if elem count on left doesn't match count on right
-    assert_raise MatchError, fn -> 
-      {name, age, gender} = {"BoB", 79}
-    end
-  end
-
-  test "Lists" do
-    # init list with a million elements
-    a = Enum.map 1..1_000_000, fn b -> b end
-    assert List.last(a) == 1_000_000
   end
 
   test "List / Enum exploration" do

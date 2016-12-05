@@ -17,9 +17,9 @@ defmodule Elixr.ListFun do
     flatten(lst, [])
   end
 
-  defp flatten([], accu), do: Enum.reverse(accu)
+  def flatten([], accu), do: Enum.reverse(accu)
 
-  defp flatten([head|tail], accu) do
+  def flatten([head|tail], accu) do
     case is_list head do
       :true -> flatten(tail, flatten(head) ++ accu)
       :false -> flatten(tail, [head] ++ accu)
