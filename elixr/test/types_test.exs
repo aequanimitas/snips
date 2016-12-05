@@ -9,10 +9,6 @@ defmodule Types do
 
   test "Aliases and atoms" do
     assert :Lol != Elixr.Lol
-    # will this clash?
-    assert Lol == Elixr.Lol
-    # but still an atom
-    # booleans are also atoms with values either true or false
     assert :true == true
     assert :false == false
     assert nil == :nil
