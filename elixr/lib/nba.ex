@@ -32,7 +32,7 @@ defmodule Elixr.Nba do
     Enum.map(rset, fn(rrow) -> Enum.into rrow, %{} end)
   end
 
-  def url_for(%Date{month: m, year: y, day: d} = _dte) do
+  def url_for(%DateTime{month: m, year: y, day: d} = _dte) do
     "http://stats.nba.com/stats/scoreboard/?LeagueId=00&DayOffset=0&GameDate=#{m}/#{d-1}/#{y}"
   end
 
