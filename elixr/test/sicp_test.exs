@@ -20,22 +20,22 @@ defmodule Elixr.SicpTest do
   test "1.32 - accumulator: sum" do
     assert Sicp.accumulate(
       fn(x, y) -> x + y end, # combiner, basic sum
-      0, # nil_val
-      fn(x) -> x end, # identity
-      1, # start count
-      fn (x) -> x + 1 end, # increment
-      5 # end count
+      0,                     # nil_val
+      fn(x) -> x end,        # identity
+      1,                     # start count
+      fn (x) -> x + 1 end,   # increment
+      5                      # end count
     ) == 15
   end
 
   test "1.32 - accumulator: product" do
     assert Sicp.accumulate(
       fn(x, y) -> x * y end, # combiner, product
-      1, # nil_val
-      fn(x) -> x end, # identity
-      1, # start count
-      fn (x) -> x + 1 end, # increment
-      5 # end count
+      1,                     # nil_val
+      fn(x) -> x end,        # identity
+      1,                     # start count
+      fn (x) -> x + 1 end,   # increment
+      5                      # end count
     ) == 120
   end
 
