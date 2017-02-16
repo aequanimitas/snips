@@ -28,6 +28,25 @@ defmodule Elixr.SicpTest do
     ) == 15
   end
 
+  test "1.32.1 - TCO'd accumulator: sum" do
+    assert Sicp.accumulate_tco(
+      fn(x, y) -> x + y end, # combiner, basic sum
+      0,                     # nil_val
+      fn(x) -> x end,        # identity
+      5,                     # start count
+      fn (x) -> x + 1 end,   # increment
+      4                      # end count
+    ) == 0
+    assert Sicp.accumulate_tco(
+      fn(x, y) -> x + y end, # combiner, basic sum
+      0,                     # nil_val
+      fn(x) -> x end,        # identity
+      1,                     # start count
+      fn (x) -> x + 1 end,   # increment
+      5                      # end count
+    ) == 15
+  end
+
   test "1.32 - accumulator: product" do
     assert Sicp.accumulate(
       fn(x, y) -> x * y end, # combiner, product
