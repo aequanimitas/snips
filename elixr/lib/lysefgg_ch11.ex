@@ -81,4 +81,42 @@ defmodule Elixr.Lysefgg.Kitchen do
   def start(), do: spawn(__MODULE__, :fridge2, [[]])
   def start([]), do: spawn(__MODULE__, :fridge2, [[]])
   def start(food_list), do: spawn(__MODULE__, :fridge2, [food_list])
+
+  @doc """
+  In case of deadlock, show error to user. The ```after``` will be triggered when no pattern
+  mathes the Match pattern. Time in ```after``` can be set to ```infinity```, useful when
+  a result ix expected, even if it is an error.
+  """
+  def store2(pid, food) do
+    send pid, {self(), {:store, food}}
+    receive do
+      {_sender, message} -> message
+    after 3000 ->
+      :timeout
+    end
+  end
+  
+  def take2(pid, food) do
+    send pid, {self(), {:take, food}}
+    receive do
+      {_sender, message} -> message
+    after 3000 ->
+      :timeout
+    end
+  end
+end
+
+defmodule Elixr.Lysefgg.Multiproc do
+  @doc """
+  In this case, nothing will match the ```receive``` and ```after``` will immediately run
+  """
+  def sleep(t) when is_integer(t) == false, do: :not_ok
+  def sleep(t) do
+    receive do
+      _ -> nil
+    after t ->
+      :ok
+    end
+  end
+
 end
