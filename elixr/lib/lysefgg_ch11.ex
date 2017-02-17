@@ -26,7 +26,8 @@ defmodule Elixr.Lysefgg.Kitchen do
       {sender, {:take, _food}} ->
         send sender, {self(), :not_found}
         fridge1()
-      terminate ->
+      _ ->
+        IO.puts "Kitchen.fridge1 received"
         :ok
     end
   end
@@ -119,4 +120,52 @@ defmodule Elixr.Lysefgg.Multiproc do
     end
   end
 
+  # as long as there are messages, flush will be called recursively until the mailbox
+  # is not empty
+  def flush() do
+    receive do
+      _ -> flush()
+    after 0 ->
+      :ok
+    end
+  end
+
+  @doc """
+  Start of selective receive.
+
+  This is new to me, where ```important``` and ```normal``` are like global receive. I'm
+  not sure on what the proper term for this. Doing a ```send``` to ```self()``` accumulates
+  all the messages
+  """
+  def important do
+    receive do
+      {priority, message} when priority > 10 ->
+        # push message into list, then do a recursive call again for important() ???
+        [message | important()]
+    after 0 ->
+      # now if priority is less than ten, call ```normal()```
+      normal()
+    end
+  end
+
+  def normal do
+    receive do
+      {_, message} ->
+        # push message into list, then do a recursive call again for normal() ???
+        [message | normal()]
+    after 0 ->
+      []
+    end
+  end
+end
+
+defmodule Elixr.Lysefgg.MultiprocTwo do
+  def blah do
+    receive do
+      # when you do a send() to self(), this triggers too
+      {_, message} -> IO.puts "Multiproc2: #{message}"
+       _ -> IO.puts "Multiproc2"
+    after 0 -> :ok
+    end
+  end
 end

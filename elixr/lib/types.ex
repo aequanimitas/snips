@@ -1,5 +1,3 @@
-ExUnit.start
-
 defmodule Elixr.ListFun do
 
   @doc """

@@ -5,7 +5,7 @@ defmodule Elixr.Nba do
   end
 
   def init() do
-    url_for(Timex.today)
+    url_for(DateTime.utc_now())
     |> scores
     |> parse_results
     |> get_game_header
