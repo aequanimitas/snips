@@ -157,6 +157,15 @@ defmodule Elixr.Lysefgg.Multiproc do
       []
     end
   end
+
+  def unexpected_message do
+    receive do
+      {alert_level, message} when alert_level > 4 -> 
+        IO.puts "Alert level #{alert_level}: #{message}"
+      _ ->
+        IO.puts "Alert level beyond"
+    end
+  end
 end
 
 defmodule Elixr.Lysefgg.MultiprocTwo do
