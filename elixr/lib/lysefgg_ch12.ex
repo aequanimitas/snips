@@ -84,24 +84,47 @@ defmodule Elixr.Lysefgg.Linkmon do
   end
 
   @doc """
-  Detecting if relied process has died
+  Detecting if relied process has died. To kill this process, use 
+  Process.exit(critic, :message), not exit/1. Using exit/1 exits the calling 
+  process (in this case, the shell).
+
+  Sample is in Learn You some Erlang book
+
+  Problem 1: Simulate a :snow_storm, the process is not restarted automatically 
+  (Ideally, it should be!)
+
+  iex> alias Elixr.Lysefgg.Linkmon
+  iex> critic = Linkmon.start_critic()
+  iex> Linkmon.judge(critic, "Eraserheads", "Cutterpillow")
+  They are terrible!
+  iex> Process.exit(critic, :snow_storm)
+  (exit) #PID<0.224.0>
+  iex> Linkmon.judge(critic, "Eraserhead", "Cutterpillow")
+  :timeout
+
+  Solution 1: Add a basic "supervisor", only job is to restart critic when it crashes
+
+  iex> alias Elixr.Lysefgg.Linkmon
+  iex> critic = Linkmon.start_critic()
+  iex> Linkmon.judge(critic, "Eraserheads", "Cutterpillow")
+  # problem 2 starts here
+  :timeout
+
+  Problem 2: We now have a process that just monitors and linked to ```critic()``` but
+  the ```restarter``` process doesn't know the PID of ```critic```. 
+
+  iex> alias Elixr.Lysefgg.Linkmon
+  iex> critic = Linkmon.start_critic2()
+  iex> Linkmon.judge(critic, "Eraserheads", "Cutterpillow")
+  # problem 3 starts here
+  :timeout
+
+  Solution 3: Do a ```Process.register``` to register the process linked to the restarter
+  
+
+  Problem 3: Still receiving timeouts because ```restarter``` doesn't know how to send to
+  critic the message it received
   """
-
-  # to kill this process, use Process.exit(critic, :message), not exit/1
-  # using exit/1 exits the calling process (shell)
-  # Sample is in Learn You some Erlang book
-
-  # simulate a :snow_storm, the process is not restarted automatically (Ideally, it should be!)
-
-  # iex> alias Elixr.Lysefgg.Linkmon
-  # iex> critic = Linkmon.start_critic()
-  # iex> Linkmon.judge(critic, "Eraserhead", "Cutterpillow")
-  # They are terrible!
-  # iex> Process.exit(critic, :snow_storm)
-  # (exit) #PID<0.224.0>
-  # iex> Linkmon.judge(critic, "Eraserhead", "Cutterpillow")
-  # :timeout
-
   def start_critic do
     spawn(__MODULE__, :critic, [])
   end
@@ -111,7 +134,7 @@ defmodule Elixr.Lysefgg.Linkmon do
     # if not
     send pid, {self(), {band, album}}
     receive do
-      {pid, criticism} -> criticism
+      {_pid, criticism} -> criticism
     after 2000 ->
       :timeout
     end
@@ -131,18 +154,35 @@ defmodule Elixr.Lysefgg.Linkmon do
     critic()
   end
 
-  # starting a very basic ```supervisor``` process
+  # starting a very basic ```supervisor``` process, restarts ```critic()```
   def start_critic2 do
     spawn(__MODULE__, :restarter, [])
   end
 
+  @doc """
+
+  """
   def restarter do
     Process.flag(:trap_exit, true)
-    pid = spawn_link(__MODULE__, :critic, [])
+    pid = spawn_link(__MODULE__, :critic, []) # link ```restarter``` and ```critic```
+    Process.register(pid, :critic)            # then register process as :critic
     receive do
-      {'EXIT', pid, :normal} -> :ok   # not a crash
-      {'EXIT', pid, :shutdown} -> :ok # manual termination not a crash
-      {'EXIT', pid, _} -> :ok
+      {'EXIT', pid, :normal} -> :ok          # not a crash
+      {'EXIT', pid, :shutdown} -> :ok        # manual termination not a crash
+      {'EXIT', pid, _} -> restarter()
+    end
+  end
+
+  def judge2(band, album) do
+    # call the usual way, as in invoking directly, passing arguments
+    send :critic, {self(), {band, album}}
+    pid = Process.whereis(:critic)
+
+    # called when receiving messages from other processes
+    receive do
+      {pid, criticism} -> criticism
+    after 2000 ->
+      :timeout
     end
   end
 end
