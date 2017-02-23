@@ -174,15 +174,81 @@ defmodule Elixr.Lysefgg.Linkmon do
   end
 
   def judge2(band, album) do
+    send :critic, {self(), {band, album}} 
+
     # call the usual way, as in invoking directly, passing arguments
-    send :critic, {self(), {band, album}}
+    # Assume that the pid of :critic is the same after the first two lines of the function
+
+    # this flow might happen:
+    # - send critic, message
+    # - critic receives
+    # - critic responds
+    # - critic receives
+    # - Process.whereis(:critic) fails
+    # - code crashes
+
+    # this also might happen:
+    # - send critic, message
+    # - critic receives
+    # - critic responds
+    # - critic receives
+    # - Process.whereis(:critic) gets wrong pid
+    # - message never matches
+
+    # the :critic atom can be seen by multiple processes, this is called shared state
+    # where other processes can access and modify the value of :critic at virtually
+    # the same time which might result in inconsistent info, also known as race condition.
+    # Race conditions are dangerous if you have to depend on the order of events.
     pid = Process.whereis(:critic)
 
-    # called when receiving messages from other processes
-    receive do
+    receive do # called when receiving messages from other processes
       {pid, criticism} -> criticism
     after 2000 ->
       :timeout
+    end
+  end
+
+  @doc """
+  Instead of getting the name of the process, make a reference of the current process
+  and pass it along with the message to the intended receiver. 
+  """
+  def judge3(band, album) do
+    ref = make_ref()
+    send :critic, {self(), ref, {band, album}} # :critic is in ```registered/3```
+    receive do 
+      {pid, criticism} -> criticism
+    after 2000 ->
+      :timeout
+    end
+  end
+
+  def critic3() do
+    receive do
+      {from, ref, {"Rage Against The Turing Machine", "Unit Testify"}} ->
+        send from, {ref, "They are great!"}
+      {from, ref, {"System of a Downtime", "Memoize"}} ->
+        send from, {ref, "They're not Johnny Crash but they're good."}
+      {from, ref, {"Johnny Crash", "The Token of Ring and Fire"}} ->
+        send from, {ref, "Simply incredible"}
+      {from, ref, {_band, _album}} ->
+        send from, {ref, "They are terrible!"}
+    end
+    # do a TC
+    critic3()
+  end
+
+  def start_critic3 do
+    spawn(__MODULE__, :restarter3, [])
+  end
+
+  def restarter3 do
+    Process.flag(:trap_exit, true)
+    pid = spawn_link(__MODULE__, :critic3, []) # link ```restarter``` and ```critic```
+    Process.register(pid, :critic)            # then register process as :critic
+    receive do
+      {'EXIT', pid, :normal} -> :ok          # not a crash
+      {'EXIT', pid, :shutdown} -> :ok        # manual termination not a crash
+      {'EXIT', pid, _} -> restarter()
     end
   end
 end
