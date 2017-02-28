@@ -1,6 +1,8 @@
 defmodule Elixr.Core.PatternMatchingTest do
   use ExUnit.Case, async: true
 
+  alias Elixr.Core.PatternMatching, as: PT
+
   test "match the first two elements of a list, elixirconf" do
     assert_raise MatchError, fn -> 
       [a,a] = [2, 1, 0, 9] 
@@ -8,14 +10,14 @@ defmodule Elixr.Core.PatternMatchingTest do
   end
 
   test "anagram" do
-    assert anagram("cat") == anagram("tac")
-    assert anagram("cat") == anagram("act")
-    assert anagram("cat") == anagram("tca")
-    assert anagram("break") == anagram("baker")
-    assert anagram("nameless") == anagram("salesmen")
+    assert PT.anagram("cat") == PT.anagram("tac")
+    assert PT.anagram("cat") == PT.anagram("act")
+    assert PT.anagram("cat") == PT.anagram("tca")
+    assert PT.anagram("break") == PT.anagram("baker")
+    assert PT.anagram("nameless") == PT.anagram("salesmen")
   end
 
-  defp anagram(word) do
-    word |> String.codepoints() |> Enum.sort()
+  test "destructuring a struct" do
+    assert is_map(PT.struct_pattern(%{a: 1, b: 2}))
   end
 end
