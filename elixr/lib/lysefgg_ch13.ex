@@ -168,7 +168,7 @@ defmodule Elixr.Lysefgg.DCA.Evserv do
   end
 
   def send_to_clients(msg, clients) do
-    :orddict.map(fn(_ref, pid) -> send pid, {msg, :end} end, clients)
+    :orddict.map(fn(_ref, pid) -> send pid, msg; end, clients)
   end
 
   def valid_datetime({date, time}) do
@@ -256,7 +256,7 @@ defmodule Elixr.Lysefgg.DCA.Evserv do
 
   def listen(delay) do
     receive do
-      message = {_done, _name, _description} ->
+      message = {:done, _name, _description} ->
         [message | listen(0)]
     after delay * 1000 ->
       []
