@@ -39,7 +39,7 @@ defmodule Elixr.Lysefgg.DCA.Event do
           {ref, :ok} ->
             Process.demonitor(ref, [:flush])
             :ok
-          {'DOWN', _ref, _process, _pid, _reason} ->
+          {:DOWN, _ref, _process, _pid, _reason} ->
             :ok
         end
     end
@@ -156,7 +156,7 @@ defmodule Elixr.Lysefgg.DCA.Evserv do
         end
 
       :shutdown -> exit(:shutdown)
-      {"DOWN", ref, :process, _pid, _reason} -> 
+      {:DOWN, ref, :process, _pid, _reason} -> 
         loop %{evstate | clients: :orddict.erase(ref, clients)}
       # by using the pattern __MODULE__.fn (fully qualified calls) we can call the loop
       # loop in new version of code, if exists
@@ -214,7 +214,7 @@ defmodule Elixr.Lysefgg.DCA.Evserv do
     receive do
       {ref, :ok} ->
         {:ok, ref}
-      {"DOWN", _ref, :process, _pid, reason} ->
+      {:DOWN, _ref, :process, _pid, reason} ->
         {:error, reason}
     after 5000 ->
         {:error, :timeout}
@@ -260,6 +260,33 @@ defmodule Elixr.Lysefgg.DCA.Evserv do
         [message | listen(0)]
     after delay * 1000 ->
       []
+    end
+  end
+end
+
+defmodule Elixr.Lysefgg.DCA.Sup do
+  
+  def start(module, args) do
+    spawn(__MODULE__, :init, [{module, args}])
+  end
+  
+  def start_link(module, args) do
+    spawn_link(__MODULE__, :init, [{module, args}])
+  end
+  
+  def init({module, args}) do
+    Process.flag(:trap_exit, true)
+    loop({module, :start_link, args})
+  end
+  
+  def loop({module, func, args}) do
+    pid = apply(module, func, args)
+    receive do
+      {:EXIT, _from, :shutdown} ->
+        exit(:shutdown)
+      {:EXIT, pid, reason} ->
+        IO.puts "Process exited: #{reason}"
+        loop({module, func, args})
     end
   end
 end
