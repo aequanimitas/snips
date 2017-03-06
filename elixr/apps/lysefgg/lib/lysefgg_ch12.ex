@@ -1,4 +1,4 @@
-defmodule Elixr.Lysefgg.Linkmon do
+defmodule Lysefgg.Linkmon do
   @doc """
   Properly trapping process errors using Process.flag(:trap_exit, true). Manually doing
   spawn and links 
@@ -39,16 +39,16 @@ defmodule Elixr.Lysefgg.Linkmon do
   iex> ** (EXIT from #PID<0.391.0> ) "reason"
   Interactive Elixir (1.4.0) - press Ctrl+C to exit (type h() ENTER for help)
   ** (exit) "reason"
-      (elixir) lib/lysefgg_ch12.ex:4: Elixr.Lysefgg.Linkmon.myproc/0
+      (elixir) lib/lysefgg_ch12.ex:4: Lysefgg.Linkmon.myproc/0
 
   iex> spawn(Linkmon.myproc/0)
   # after 3 seconds
   ** (exit) "reason"
-      (elixir) lib/lysefgg_ch12.ex:4: Elixr.Lysefgg.Linkmon.myproc/0
+      (elixir) lib/lysefgg_ch12.ex:4: Lysefgg.Linkmon.myproc/0
   iex> Process.link(spawn(Linkmon.myproc/0))
   # after 3 seconds
   ** (exit) "reason"
-      (elixir) lib/lysefgg_ch12.ex:4: Elixr.Lysefgg.Linkmon.myproc/0
+      (elixir) lib/lysefgg_ch12.ex:4: Lysefgg.Linkmon.myproc/0
 
   # The error here won't be caught by try..catch.
   """
@@ -59,7 +59,7 @@ defmodule Elixr.Lysefgg.Linkmon do
 
   @doc """
   # Process.link links current process
-  iex> spawn(Elixr.Lysefgg.Linkmon, :chain, [3]) |> Process.link
+  iex> spawn(Lysefgg.Linkmon, :chain, [3]) |> Process.link
   [shell] == 3
   true 
   [shell] == 2

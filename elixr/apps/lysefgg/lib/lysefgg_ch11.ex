@@ -1,4 +1,4 @@
-defmodule Elixr.Lysefgg.Kitchen do
+defmodule Lysefgg.Kitchen do
   @doc """
   Food can be taken only as many times as it was stored. Initial implementation starts as
   stateless. 

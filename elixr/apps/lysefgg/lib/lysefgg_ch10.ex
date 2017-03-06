@@ -1,11 +1,11 @@
-defmodule Elixr.Lysefgg.Dolphin do
+defmodule Lysefgg.Dolphin do
   @doc """
   single run only, you have to do a spawn again to process new actions
   Examples
 
   # current process is waiting for message
   # which will arrive when the ```receive``` expression is hit
-  iex> dolphin = spawn(Elixr.Processes.Dolphin, :dolphin!, [])
+  iex> dolphin = spawn(Lysefgg.Dolphin, :dolphin!, [])
   #PID<0.259>
 
   # receive pattern matches here
@@ -43,7 +43,7 @@ defmodule Elixr.Lysefgg.Dolphin do
    
   # to avoid spawning new process everytime a message is sent to the mailbox
   # use recursion
-  # iex> dolphin = spawn(Elixr.Processes.Dolphin, :dolphin!, [])
+  # iex> dolphin = spawn(Lysefgg.Dolphin, :dolphin!, [])
   # #PID<0.259>
 
   # # receive pattern matches here
