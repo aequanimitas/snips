@@ -17,6 +17,34 @@ defmodule Elixr.ControlFlow do
     end
   end
 
+  # just handle happy path
+  defmacro unless_two(expr, do: block) do
+    quote do
+      case !(unquote(expr)) do
+        true -> unquote(block)
+        false -> unquote(nil)
+      end
+    end
+  end
+
+  # handle also else clause
+  # single line: ControlFlow.unless_two 9 == 9, do: (IO.puts "hi"), else: (IO.puts "Hello")
+  # take note of the single space betweed the do keyword and fn
+  # on multi-line, just proceed
+  defmacro unless_two(expr, do: positive_block, else: else_block) do
+    quote do
+      case !(unquote(expr)) do
+        true -> unquote(positive_block)
+        false -> unquote(else_block)
+      end
+    end
+  end
+
+  defmacro raw_ast(expr) do
+    # Macro.escape returns the VALUE in AST;
+    Macro.escape(expr)
+  end
+
   def expanded_once do
     ast = quote do
       ControlFlow.unless 2 == 3, do: "block entered"
