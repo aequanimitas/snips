@@ -1,6 +1,6 @@
-defmodule RangeTest do
+defmodule Sicp.RangeTest do
   use ExUnit.Case, async: true
-  alias Elixr.Recursion.Range
+  alias Sicp.Recursion.Range
 
   test "Sum" do
     assert Range.looper(1, 5, fn x -> x end, fn x -> x + 1 end, &Range.add/2) == 15

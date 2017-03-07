@@ -1,4 +1,4 @@
-defmodule Types do
+defmodule Core.Core.EnumsTest do
   use ExUnit.Case, async: true
 
   test "Numbers" do
@@ -8,22 +8,21 @@ defmodule Types do
   end
 
   test "Aliases and atoms" do
-    assert :Lol != Elixr.Lol
     assert :true == true
     assert :false == false
     assert nil == :nil
   end
 
   test "List / Enum exploration" do
-    assert Elixr.ListFun.flatten([3]) == [3]
-    assert Elixr.ListFun.flatten([[3]]) == [3]
-    assert Elixr.ListFun.flatten([[[3]]]) == [3]
-    assert Elixr.ListFun.flatten([[3], 3]) == [3, 3]
-    assert Elixr.ListFun.flatten([[3], [[4]]]) == [3, 4]
-    assert Elixr.ListFun.flatten([[3], [[4]], [[2] | [[[3]]]]]) == [3, 4, 3, 2]
-    assert Elixr.ListFun.len([1,2,3,4]) == 4
-    assert is_tuple(hd(Elixr.ListFun.zip([1,2,3,4]))) == true
-    assert is_list(Elixr.ListFun.zip([1,2,3,4])) == true
+    assert Core.Enums.flatten([3]) == [3]
+    assert Core.Enums.flatten([[3]]) == [3]
+    assert Core.Enums.flatten([[[3]]]) == [3]
+    assert Core.Enums.flatten([[3], 3]) == [3, 3]
+    assert Core.Enums.flatten([[3], [[4]]]) == [3, 4]
+    assert Core.Enums.flatten([[3], [[4]], [[2] | [[[3]]]]]) == [3, 4, 3, 2]
+    assert Core.Enums.len([1,2,3,4]) == 4
+    assert is_tuple(hd(Core.Enums.zip([1,2,3,4]))) == true
+    assert is_list(Core.Enums.zip([1,2,3,4])) == true
   end
 
   test "Binaries" do

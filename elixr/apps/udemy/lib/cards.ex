@@ -1,4 +1,4 @@
-defmodule Elixr.Cards do
+defmodule Udemy.Cards do
   @moduledoc """
     Provides methods for creating and handling deck of cards
   """ 
@@ -24,7 +24,7 @@ defmodule Elixr.Cards do
 
   ## Examples
 
-    iex> Elixr.Cards.contains?(Elixr.Cards.create_deck(), "Ace of Malunggay")
+    iex> Udemy.Cards.contains?(Udemy.Cards.create_deck(), "Ace of Malunggay")
     false  
 
   """
@@ -38,8 +38,8 @@ defmodule Elixr.Cards do
 
   ## Examples
 
-    iex> deck = Elixr.Cards.create_deck()
-    iex> {hand, _deck} = Elixr.Cards.deal(deck, 1) # for pusoy
+    iex> deck = Udemy.Cards.create_deck()
+    iex> {hand, _deck} = Udemy.Cards.deal(deck, 1) # for pusoy
     iex> hand
     ["Ace of Spades"]
 
@@ -63,8 +63,8 @@ defmodule Elixr.Cards do
   end
 
   def create_hand(handsize) do
-    Elixr.Cards.create_deck
-    |> Elixr.Cards.shuffle
-    |> Elixr.Cards.deal(handsize) # 1st argument automatically passed, handsize is 2nd arg
+    Udemy.Cards.create_deck
+    |> Udemy.Cards.shuffle
+    |> Udemy.Cards.deal(handsize) # 1st argument automatically passed, handsize is 2nd arg
   end
 end

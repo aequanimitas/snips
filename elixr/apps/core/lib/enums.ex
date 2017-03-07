@@ -1,10 +1,13 @@
-defmodule Elixr.ListFun do
+defmodule Core.Enums do
+  @moduledoc """
+  Documentation for Core.Enums.
+  """
 
   @doc """
   Naive implementation of flatten. Returns a single-level array (I don't know the technical term for this)
 
   ## Examples
-      iex> Elixr.ListFun.flatten([[]])
+      iex> Enums.flatten([[]])
       []
 
   """
@@ -45,10 +48,10 @@ defmodule Elixr.ListFun do
 
     ## Examples
         
-        iex> Elixr.ListFun.zip([1,2,3], ["a", "b", "c"])
+        iex> Enums.zip([1,2,3], ["a", "b", "c"])
         [{1, "a"}, {2, "b"}, {3, "c"}]
 
-        iex> Elixr.ListFun.zip([1,2,3], ["a", "b"])
+        iex> Enums.zip([1,2,3], ["a", "b"])
         [{1, "a"}, {2, "b"}, {3}]
   """
   def zip(lst) do

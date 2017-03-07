@@ -1,4 +1,4 @@
-defmodule Elixr.ControlFlow do
+defmodule ControlFlow do
 
   # always receives and sends back an AST representation, things to note:
   # - you can still do pattern matching in macro arguments

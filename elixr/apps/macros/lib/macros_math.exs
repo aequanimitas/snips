@@ -1,4 +1,4 @@
-defmodule Elixr.Macros.Math do
+defmodule Macros.Math do
 
   # macros receive the AST representation
   # so 1 + 1 is converted to AST: {:+, [context: Elixir, import: Kernel], [1,2]}

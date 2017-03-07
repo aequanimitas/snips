@@ -1,4 +1,4 @@
-defmodule Elixr.Sicp do
+defmodule Sicp do
 
   def sum_range(s, e) when e == 0, do: s
   def sum_range(s, e) when s > e, do: 0

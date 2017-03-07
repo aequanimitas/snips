@@ -1,4 +1,4 @@
-defmodule Elixr.UsingBitwiseTest do
+defmodule Core.UsingBitwiseTest do
   use ExUnit.Case
   use Bitwise
 

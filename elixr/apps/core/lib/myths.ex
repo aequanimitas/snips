@@ -1,7 +1,7 @@
-defmodule Elixr.Operators do
-  # I think I should not be concerned with this since I "trust" elixir
-  # creators that they've handled this already, but knowing a bit more
-  # about the implementation and techniques does not hurt.
+defmodule Core.Myths do
+  @doc """
+  From http://erlang.org/doc/efficiency_guide/myths.html#id60476
+  """
   def naive_reverse([h|t]), do: naive_reverse(t) ++ [h]
   def naive_reverse([]), do: []
 
