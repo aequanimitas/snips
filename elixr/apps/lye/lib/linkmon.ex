@@ -1,4 +1,4 @@
-defmodule Lysefgg.Linkmon do
+defmodule Lye.Linkmon do
   @doc """
   Properly trapping process errors using Process.flag(:trap_exit, true). Manually doing
   spawn and links 
@@ -9,7 +9,7 @@ defmodule Lysefgg.Linkmon do
   true
 
   # prints out ```true```
-  iex> spawn(Elixr.Lysefgg.Linkmon, :chain, [3]) |> Process.link
+  iex> spawn(Elixr.Lye.Linkmon, :chain, [3]) |> Process.link
   [shell] == 3
   true
   [shell] == 2
@@ -17,7 +17,7 @@ defmodule Lysefgg.Linkmon do
   [shell] == [3]
 
   # or, prints out a PID
-  iex> spawn_link(Elixr.Lysefgg.Linkmon, :chain, [3])
+  iex> spawn_link(Elixr.Lye.Linkmon, :chain, [3])
   [shell] == 3
   #PID<0.49.0>
   [shell] == 2
@@ -39,16 +39,16 @@ defmodule Lysefgg.Linkmon do
   iex> ** (EXIT from #PID<0.391.0> ) "reason"
   Interactive Elixir (1.4.0) - press Ctrl+C to exit (type h() ENTER for help)
   ** (exit) "reason"
-      (elixir) lib/lysefgg_ch12.ex:4: Lysefgg.Linkmon.myproc/0
+      (elixir) lib/lysefgg_ch12.ex:4: Lye.Linkmon.myproc/0
 
   iex> spawn(Linkmon.myproc/0)
   # after 3 seconds
   ** (exit) "reason"
-      (elixir) lib/lysefgg_ch12.ex:4: Lysefgg.Linkmon.myproc/0
+      (elixir) lib/lysefgg_ch12.ex:4: Lye.Linkmon.myproc/0
   iex> Process.link(spawn(Linkmon.myproc/0))
   # after 3 seconds
   ** (exit) "reason"
-      (elixir) lib/lysefgg_ch12.ex:4: Lysefgg.Linkmon.myproc/0
+      (elixir) lib/lysefgg_ch12.ex:4: Lye.Linkmon.myproc/0
 
   # The error here won't be caught by try..catch.
   """
@@ -59,7 +59,7 @@ defmodule Lysefgg.Linkmon do
 
   @doc """
   # Process.link links current process
-  iex> spawn(Lysefgg.Linkmon, :chain, [3]) |> Process.link
+  iex> spawn(Lye.Linkmon, :chain, [3]) |> Process.link
   [shell] == 3
   true 
   [shell] == 2
@@ -93,7 +93,7 @@ defmodule Lysefgg.Linkmon do
   Problem 1: Simulate a :snow_storm, the process is not restarted automatically 
   (Ideally, it should be!)
 
-  iex> alias Elixr.Lysefgg.Linkmon
+  iex> alias Elixr.Lye.Linkmon
   iex> critic = Linkmon.start_critic()
   iex> Linkmon.judge(critic, "Eraserheads", "Cutterpillow")
   They are terrible!
@@ -104,7 +104,7 @@ defmodule Lysefgg.Linkmon do
 
   Solution 1: Add a basic "supervisor", only job is to restart critic when it crashes
 
-  iex> alias Elixr.Lysefgg.Linkmon
+  iex> alias Elixr.Lye.Linkmon
   iex> critic = Linkmon.start_critic()
   iex> Linkmon.judge(critic, "Eraserheads", "Cutterpillow")
   # problem 2 starts here
@@ -113,7 +113,7 @@ defmodule Lysefgg.Linkmon do
   Problem 2: We now have a process that just monitors and linked to ```critic()``` but
   the ```restarter``` process doesn't know the PID of ```critic```. 
 
-  iex> alias Elixr.Lysefgg.Linkmon
+  iex> alias Elixr.Lye.Linkmon
   iex> critic = Linkmon.start_critic2()
   iex> Linkmon.judge(critic, "Eraserheads", "Cutterpillow")
   # problem 3 starts here

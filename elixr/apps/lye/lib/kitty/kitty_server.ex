@@ -16,7 +16,7 @@ defmodule Lye.Kitty.Server do
     ref = Process.monitor(pid)
     send pid, {self(), ref, {:order, name, color, description}}
     receive do
-      {ref, cat} ->
+      {^ref, cat} ->
         Process.demonitor(ref, [:flush])
         cat
       {'DOWN', ref, :process, pid, reason} ->
@@ -36,10 +36,10 @@ defmodule Lye.Kitty.Server do
     ref = Process.monitor(pid)
     send pid, {self(), ref, :terminate}
     receive do
-      {ref, :ok} ->
+      {^ref, :ok} ->
         Process.demonitor(ref)
         :ok
-      {'DOWN', _ref, :process, _pid, reason} ->
+      {:DOWN, _ref, :process, _pid, reason} ->
         :erlang.error(reason)
     after 5000 ->
       :erlang.error(:timeout)

@@ -1,10 +1,10 @@
-defmodule Lysefgg.Kitchen do
+defmodule Lye.Kitchen do
   @doc """
   Food can be taken only as many times as it was stored. Initial implementation starts as
   stateless. 
 
   ## Examples
-  iex> pid = spawn(Elixr.Lysefgg.Kitchen, :fridge1, [])
+  iex> pid = spawn(Elixr.Lye.Kitchen, :fridge1, [])
   iex> send pid, {self(), {:store, "milk"}}
   {#PID<0.192.0>, {:store, "milk"}}
   iex> flush()
@@ -103,78 +103,6 @@ defmodule Lysefgg.Kitchen do
       {_sender, message} -> message
     after 3000 ->
       :timeout
-    end
-  end
-end
-
-defmodule Elixr.Lysefgg.Multiproc do
-  @doc """
-  In this case, nothing will match the ```receive``` and ```after``` will immediately run
-  """
-  def sleep(t) when is_integer(t) == false, do: :not_ok
-  def sleep(t) do
-    receive do
-      _ -> nil
-    after t ->
-      :ok
-    end
-  end
-
-  # as long as there are messages, flush will be called recursively until the mailbox
-  # is not empty
-  def flush() do
-    receive do
-      _ -> flush()
-    after 0 ->
-      :ok
-    end
-  end
-
-  @doc """
-  Start of selective receive.
-
-  This is new to me, where ```important``` and ```normal``` are like global receive. I'm
-  not sure on what the proper term for this. Doing a ```send``` to ```self()``` accumulates
-  all the messages
-  """
-  def important do
-    receive do
-      {priority, message} when priority > 10 ->
-        # push message into list, then do a recursive call again for important() ???
-        [message | important()]
-    after 0 ->
-      # now if priority is less than ten, call ```normal()```
-      normal()
-    end
-  end
-
-  def normal do
-    receive do
-      {_, message} ->
-        # push message into list, then do a recursive call again for normal() ???
-        [message | normal()]
-    after 0 ->
-      []
-    end
-  end
-
-  def unexpected_message do
-    receive do
-      {alert_level, message} when alert_level > 4 -> 
-        IO.puts "Alert level #{alert_level}: #{message}"
-      _ ->
-        IO.puts "Alert level beyond"
-    end
-  end
-end
-
-defmodule Elixr.Lysefgg.MultiprocTwo do
-  def blah do
-    receive do
-      # when you do a send() to self(), this triggers too
-      {_, message} -> IO.puts "Multiproc2: #{message}"
-       _ -> IO.puts "Multiproc2"
-    after 0 -> :ok
     end
   end
 end

@@ -1,5 +1,6 @@
 defmodule Lye.Kitty.KittyGenServer do
   use GenServer
+  alias Lye.Kitty.Kitty.Cat
 
   def start_link do
     GenServer.start_link(__MODULE__, [])
@@ -52,6 +53,6 @@ defmodule Lye.Kitty.KittyGenServer do
   end
 
   defp make_cat(name, color, description) do
-    %{:name => name, :color => color, :description => description}
+    %Cat{name: name, color: color, description: description}
   end
 end
