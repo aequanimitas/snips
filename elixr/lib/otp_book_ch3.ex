@@ -1,4 +1,5 @@
 defmodule Elixr.TheLittleElixir.Etex.Worker do
+  @moduledoc false
 
   @doc """
   - Store the results into the mailbox of the sender
@@ -17,9 +18,9 @@ defmodule Elixr.TheLittleElixir.Etex.Worker do
   # show the messages that were sent
   # the order here is not assured
   iex> flush
-  {:ok, "Manila: 24.9 C"} 
-  {:ok, "Tokyo: 7.1 C"} 
-  {:ok, "Kuala Lumpur: 28.9 C"} 
+  {:ok, "Manila: 24.9 C"}
+  {:ok, "Tokyo: 7.1 C"}
+  {:ok, "Kuala Lumpur: 28.9 C"}
   :ok
   """
 
@@ -31,8 +32,8 @@ defmodule Elixr.TheLittleElixir.Etex.Worker do
         IO.puts "Unknown input"
     end
     # call itself again, recursive fn
-    # when left out, the moment a message arrives (the process starts to handle a message), 
-    # it will exit and be garbage collected
+    # when left out, the moment a message arrives (the process starts to 
+    # handle a message), it will exit and be garbage collected
     # 
     loop
   end
@@ -64,7 +65,8 @@ defmodule Elixr.TheLittleElixir.Etex.Worker do
   end
 
   defp compute_temperature(json) do
-    try do
+    # use implicit try instead of explicit (try do)
+    try
       temp = (json["main"]["temp"] - 273.15) |> Float.round(1)
       {:ok, temp}
     rescue
@@ -74,7 +76,7 @@ defmodule Elixr.TheLittleElixir.Etex.Worker do
 
   defp apikey() do
     # read api key directly from file for now
-    {_, key} = File.read("lib/otpbook_openweatherapikey")  
+    {_, key} = File.read("lib/otpbook_openweatherapikey")
     key |> String.replace("\n", "")
   end
 end

@@ -1,4 +1,5 @@
 defmodule Elixr.Ping do
+  @moduledoc false
   def start do
     await
   end
@@ -12,4 +13,3 @@ defmodule Elixr.Ping do
     await
   end
 end
-

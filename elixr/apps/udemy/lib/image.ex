@@ -3,7 +3,7 @@ defmodule Udemy.Identicon.Image do
     Struct
 
   ## Examples
-    
+
     iex> %Identicon.Image {}
     %Identicon.Image{hex: nil}
     iex> %Identicon.Image {hex: []}

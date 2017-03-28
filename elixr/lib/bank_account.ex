@@ -1,10 +1,12 @@
 defmodule Elixr.BankAccount do
+  @moduledoc false
+
   def start do
     # event sourcing: tracking events
     # start await with an empty list of events
     await([])
   end
-  
+
   def await(events) do
     # handle the message here
     receive do

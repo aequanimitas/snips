@@ -1,4 +1,5 @@
 defmodule Udemy.Identicon do
+  @moduledoc false
 
   # helper function to accept input
   def main(input) do
@@ -14,14 +15,15 @@ defmodule Udemy.Identicon do
 
   # move the pattern matching to the argument.
   # - match the pattern in LHS
-  # - assign labels to the first three elements, 
+  # - assign labels to the first three elements,
   # - RHS has to match the structure of the LHS
   def pick_color(%Udemy.Identicon.Image{hex: [r,g,b | _tail]} = image) do
-    # create a new record that contains the hex and image data
-    # color has "meaning" for us, so the model used here is a tuple
-    # the "image" here is labelled as "hex" inside the structure
-    # I think this depends on order the properties were declared on the Image struct module
-    
+  # create a new record that contains the hex and image data
+  # color has "meaning" for us, so the model used here is a tuple
+  # the "image" here is labelled as "hex" inside the structure
+  # I think this depends on order the properties were declared on the Image
+  # struct module
+
     %Udemy.Identicon.Image{image | color: {r,g,b}}
   end
 
@@ -53,7 +55,7 @@ defmodule Udemy.Identicon do
   end
 
   def filter_odd_squares(%Udemy.Identicon.Image{grid: grid} = image) do
-     grid = Enum.filter grid, fn({code, _index}) -> 
+     grid = Enum.filter grid, fn {code, _index} ->
        rem(code, 2) == 0
      end
      %Udemy.Identicon.Image{image | grid: grid}
@@ -75,8 +77,7 @@ defmodule Udemy.Identicon do
   end
 
   def hash_input(input) do
-    hex = :crypto.hash(:md5, input)
-    |> :binary.bin_to_list
+    hex = :md5 |> :crypto.hash(input) |> :binary.bin_to_list
     %Udemy.Identicon.Image{hex: hex}
   end
 end

@@ -1,2 +1,3 @@
-# Snips
-Collection of code from various languages.
+# Elixr
+
+Notes and codes while exploring Elixir and Erlang

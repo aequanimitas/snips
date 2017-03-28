@@ -1,4 +1,5 @@
 defmodule Elixr.Otp.SayHi do
+  @moduledoc false
   use GenServer
 
   def start_link do
@@ -16,7 +17,7 @@ defmodule Elixr.Otp.SayHi do
     {:noreply, state}
   end
 
-  defp schedule_work() do
+  defp schedule_work do
     Process.send_after(self(), :work, 1000)
   end
 end

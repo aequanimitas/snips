@@ -1,4 +1,5 @@
 defmodule Elixr.Pong do
+  @moduledoc false
   def start do
     await 0
   end
@@ -13,4 +14,3 @@ defmodule Elixr.Pong do
     await ct + 1
   end
 end
-

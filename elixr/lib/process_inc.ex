@@ -1,4 +1,5 @@
 defmodule Elixr.Process.Increment do
+  @moduledoc false
 
   # just increment
   # same with the Elixr.Etex.Worker, loops and waits for another meesage
@@ -10,7 +11,8 @@ defmodule Elixr.Process.Increment do
     end
   end
 
-  # start with 0, returns reference to current module and fn, passing 0 as initial argument
+  # start with 0, returns reference to current module and fn,
+  # passing 0 as initial argument
   def start do
     spawn(__MODULE__, :inc, [0])
   end
