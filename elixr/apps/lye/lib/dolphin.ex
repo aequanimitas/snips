@@ -1,5 +1,5 @@
 defmodule Lye.Dolphin do
-  @doc """
+  @moduledoc """
   single run only, you have to do a spawn again to process new actions
   Examples
 
@@ -24,23 +24,23 @@ defmodule Lye.Dolphin do
   def dolphin1 do
     receive do
       :do_a_flip -> :io.format("How about no?~n")
-      :fish -> :io.format("So long and thanks for all the fish!~n") 
+      :fish -> :io.format("So long and thanks for all the fish!~n")
       _ -> :io.format("Heh, we're smarter than you humans~n")
     end
   end
-  
-  #  
+
+  #
   # we still need to spawn a new process everytime a process is finished
   def dolphin2 do
     receive do
-      {sender, :do_a_flip} -> 
+      {sender, :do_a_flip} ->
         send sender, "How about no?"
-      {sender, :fish} -> 
+      {sender, :fish} ->
         send sender, "So long and thanks for all the fish!"
       _ -> :io.format("Heh, we're smarter than you humans~n")
     end
   end
-   
+
   # to avoid spawning new process everytime a message is sent to the mailbox
   # use recursion
   # iex> dolphin = spawn(Lye.Dolphin, :dolphin!, [])
@@ -60,12 +60,12 @@ defmodule Lye.Dolphin do
   # false
   def dolphin3 do
     receive do
-      {sender, :do_a_flip} -> 
+      {sender, :do_a_flip} ->
         send sender, "How about no?"
         dolphin3()
-      {sender, :fish} -> 
+      {sender, :fish} ->
         send sender, "So long and thanks for all the fish!"
-      _ -> 
+      _ ->
         :io.format("Heh, we're smarter than you humans~n")
         dolphin3()
     end

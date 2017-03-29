@@ -1,5 +1,5 @@
-
 defmodule Elixr.Lysefgg.MultiprocTwo do
+  @moduledoc false
   def blah do
     receive do
       # when you do a send() to self(), this triggers too

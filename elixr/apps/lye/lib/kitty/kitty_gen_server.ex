@@ -1,6 +1,10 @@
 defmodule Lye.Kitty.KittyGenServer do
+  @moduledoc """
+  Read this chapter again and take notes
+  """
+
   use GenServer
-  alias Lye.Kitty.Kitty.Cat
+  alias Lye.Kitty.Cat
 
   def start_link do
     GenServer.start_link(__MODULE__, [])

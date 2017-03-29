@@ -26,9 +26,10 @@ defmodule Concurrency do
     receive do
       {:bar, _pid} ->
         IO.puts "Conversations remaining: #{count}"
-        # recusion, tail-call optimization means the last computation that needs to happen
+        # recusion, tail-call optimization means the last computation that
+        # needs to happen
         # is the recursive call
-        foo(pid, count - 1)  
+        foo(pid, count - 1)
     end
   end
 

@@ -1,7 +1,11 @@
 #defmodule Elixr.Nba do
 #
 #  defmodule GameDay do
-#    defstruct [:game_header, :line_score, :series_standings, :last_meeting, :data]
+#    defstruct [:game_header,
+#               :line_score,
+#               :series_standings,
+#               :last_meeting,
+#               :data]
 #  end
 #
 #  def init() do
@@ -17,7 +21,7 @@
 #
 #  defp parse_results(result) do
 #    case result do
-#      {:ok, %HTTPoison.Response{body: data}} -> 
+#      {:ok, %HTTPoison.Response{body: data}} ->
 #        %GameDay{data: JSON.decode!(data)}
 #      _ -> "Fail miserably"
 #    end

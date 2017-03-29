@@ -1,8 +1,8 @@
 defmodule Lye.Linkmon do
-  @doc """
-  Properly trapping process errors using Process.flag(:trap_exit, true). Manually doing
-  spawn and links 
-  
+  @moduledoc """
+  Properly trapping process errors using Process.flag(:trap_exit, true).
+  Manually doing spawn and links
+
   Examples:
 
   iex> Process.flag(:trap_exit, true)
@@ -61,7 +61,7 @@ defmodule Lye.Linkmon do
   # Process.link links current process
   iex> spawn(Lye.Linkmon, :chain, [3]) |> Process.link
   [shell] == 3
-  true 
+  true
   [shell] == 2
   [shell] == 1
   [shell] == [3]
@@ -71,26 +71,28 @@ defmodule Lye.Linkmon do
     receive do
     _ -> :ok
     after 2000 ->
-      exit("chain dies here, killing also the shell process which is also the calling process")
+      exit("chain dies here, killing also the shell process which is also the
+      calling process")
     end
   end
 
   def chain(n) do
     IO.puts "[shell] == #{n}"
-    spawn(fn -> chain(n - 1) end) |> Process.link
+    pid = spawn(fn -> chain(n - 1) end)
+    Process.link pid
     receive do
-    _ -> :ok
+      _ -> :ok
     end
   end
 
   @doc """
-  Detecting if relied process has died. To kill this process, use 
-  Process.exit(critic, :message), not exit/1. Using exit/1 exits the calling 
+  Detecting if relied process has died. To kill this process, use
+  Process.exit(critic, :message), not exit/1. Using exit/1 exits the calling
   process (in this case, the shell).
 
   Sample is in Learn You some Erlang book
 
-  Problem 1: Simulate a :snow_storm, the process is not restarted automatically 
+  Problem 1: Simulate a :snow_storm, the process is not restarted automatically
   (Ideally, it should be!)
 
   iex> alias Elixr.Lye.Linkmon
@@ -102,7 +104,8 @@ defmodule Lye.Linkmon do
   iex> Linkmon.judge(critic, "Eraserhead", "Cutterpillow")
   :timeout
 
-  Solution 1: Add a basic "supervisor", only job is to restart critic when it crashes
+  Solution 1: Add a basic "supervisor", only job is to restart critic when it
+  crashes
 
   iex> alias Elixr.Lye.Linkmon
   iex> critic = Linkmon.start_critic()
@@ -110,8 +113,9 @@ defmodule Lye.Linkmon do
   # problem 2 starts here
   :timeout
 
-  Problem 2: We now have a process that just monitors and linked to ```critic()``` but
-  the ```restarter``` process doesn't know the PID of ```critic```. 
+  Problem 2: We now have a process that just monitors and linked to
+  ```critic()``` but the ```restarter``` process doesn't know the PID
+  of ```critic```.
 
   iex> alias Elixr.Lye.Linkmon
   iex> critic = Linkmon.start_critic2()
@@ -119,19 +123,19 @@ defmodule Lye.Linkmon do
   # problem 3 starts here
   :timeout
 
-  Solution 3: Do a ```Process.register``` to register the process linked to the restarter
-  
+  Solution 3: Do a ```Process.register``` to register the process linked to
+  the restarter
 
-  Problem 3: Still receiving timeouts because ```restarter``` doesn't know how to send to
-  critic the message it received
+  Problem 3: Still receiving timeouts because ```restarter``` doesn't know
+  how to send to critic the message it received
   """
   def start_critic do
     spawn(__MODULE__, :critic, [])
   end
 
   def judge(pid, band, album) do
-    # always ensure the message here matches the pattern in critic, will always go timeout
-    # if not
+    # always ensure the message here matches the pattern in critic, will
+    # always go timeout
     send pid, {self(), {band, album}}
     receive do
       {_pid, criticism} -> criticism
@@ -164,20 +168,25 @@ defmodule Lye.Linkmon do
   """
   def restarter do
     Process.flag(:trap_exit, true)
-    pid = spawn_link(__MODULE__, :critic, []) # link ```restarter``` and ```critic```
-    Process.register(pid, :critic)            # then register process as :critic
+    # link ```restarter``` and ```critic```
+    pid = spawn_link(__MODULE__, :critic, [])
+    # then register process as :critic
+    Process.register(pid, :critic)
     receive do
-      {'EXIT', pid, :normal} -> :ok          # not a crash
-      {'EXIT', pid, :shutdown} -> :ok        # manual termination not a crash
+      # not a crash
+      {'EXIT', pid, :normal} -> :ok
+      # manual termination not a crash
+      {'EXIT', pid, :shutdown} -> :ok
       {'EXIT', pid, _} -> restarter()
     end
   end
 
   def judge2(band, album) do
-    send :critic, {self(), {band, album}} 
+    send :critic, {self(), {band, album}}
 
     # call the usual way, as in invoking directly, passing arguments
-    # Assume that the pid of :critic is the same after the first two lines of the function
+    # Assume that the pid of :critic is the same after the first two
+    # lines of the function
 
     # this flow might happen:
     # - send critic, message
@@ -195,10 +204,12 @@ defmodule Lye.Linkmon do
     # - Process.whereis(:critic) gets wrong pid
     # - message never matches
 
-    # the :critic atom can be seen by multiple processes, this is called shared state
-    # where other processes can access and modify the value of :critic at virtually
-    # the same time which might result in inconsistent info, also known as race condition.
-    # Race conditions are dangerous if you have to depend on the order of events.
+    # the :critic atom can be seen by multiple processes, this is called
+    # shared state where other processes can access and modify the value
+    # of :critic at virtually # the same time which might result in
+    # inconsistent info, also known as race condition.
+    # Race conditions are dangerous if you have to depend on the order
+    # of events.
     pid = Process.whereis(:critic)
 
     receive do # called when receiving messages from other processes
@@ -209,20 +220,21 @@ defmodule Lye.Linkmon do
   end
 
   @doc """
-  Instead of getting the name of the process, make a reference of the current process
-  and pass it along with the message to the intended receiver. 
+  Instead of getting the name of the process, make a reference of the current
+  process and pass it along with the message to the intended receiver.
   """
   def judge3(band, album) do
     ref = make_ref()
-    send :critic, {self(), ref, {band, album}} # :critic is in ```registered/3```
-    receive do 
+    # :critic is in ```registered/3```
+    send :critic, {self(), ref, {band, album}}
+    receive do
       {pid, criticism} -> criticism
     after 2000 ->
       :timeout
     end
   end
 
-  def critic3() do
+  def critic3 do
     receive do
       {from, ref, {"Rage Against The Turing Machine", "Unit Testify"}} ->
         send from, {ref, "They are great!"}
@@ -243,11 +255,15 @@ defmodule Lye.Linkmon do
 
   def restarter3 do
     Process.flag(:trap_exit, true)
-    pid = spawn_link(__MODULE__, :critic3, []) # link ```restarter``` and ```critic```
-    Process.register(pid, :critic)            # then register process as :critic
+    # link ```restarter``` and ```critic```
+    pid = spawn_link(__MODULE__, :critic3, [])
+    # then register process as :critic
+    Process.register(pid, :critic)
     receive do
-      {'EXIT', pid, :normal} -> :ok          # not a crash
-      {'EXIT', pid, :shutdown} -> :ok        # manual termination not a crash
+      # not a crash
+      {'EXIT', pid, :normal} -> :ok
+      # manual termination not a crash
+      {'EXIT', pid, :shutdown} -> :ok
       {'EXIT', pid, _} -> restarter()
     end
   end

@@ -1,4 +1,7 @@
 defmodule Lye.Kitty.MyServer do
+  @moduledoc """
+  Read again chapter and take notes
+  """
 
   def start(module, initial_state) do
     spawn(fn -> init(module, initial_state) end)

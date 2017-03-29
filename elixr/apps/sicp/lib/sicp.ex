@@ -1,4 +1,5 @@
 defmodule Sicp do
+  @moduledoc false
 
   def sum_range(s, e) when e == 0, do: s
   def sum_range(s, e) when s > e, do: 0
@@ -20,18 +21,18 @@ defmodule Sicp do
   end
 
   @doc """
-  Exercise 1.32: “Show that sum and product (Exercise 1.31) 
-  are both special cases of a still more general notion called 
-  accumulate that combines a collection of terms, using some 
+  Exercise 1.32: “Show that sum and product (Exercise 1.31)
+  are both special cases of a still more general notion called
+  accumulate that combines a collection of terms, using some
   general accumulation function:
 
   ```(accumulate combiner null-value term a next b)```
 
-  Accumulate takes as arguments the same term and range 
-  specifications as sum and product, together with a combiner 
-  procedure (of two arguments) that specifies how the current 
-  term is to be combined with the accumulation of the preceding 
-  terms and a null-value that specifies what base value to use 
+  Accumulate takes as arguments the same term and range
+  specifications as sum and product, together with a combiner
+  procedure (of two arguments) that specifies how the current
+  term is to be combined with the accumulation of the preceding
+  terms and a null-value that specifies what base value to use
   when the terms run out. ”
   """
   def accumulate(combiner, nil_val, term, x, next, y) when x > y, do: nil_val
@@ -41,28 +42,13 @@ defmodule Sicp do
 
   # tco-d
   def accumulate_tco(combiner, nil_val, term, x, next, y) do
-    accumulate_tco(
-      combiner, 
-      nil_val, 
-      term, 
-      x,
-      next,
-      y, 
-      nil_val
-    )
+    accumulate_tco(combiner, nil_val, term, x, next, y, nil_val)
   end
-  
+
   defp accumulate_tco(combiner, nil_val, term, x, next, y, acc) when x > y, do: acc
   defp accumulate_tco(combiner, nil_val, term, x, next, y, acc) do
-    accumulate_tco(
-      combiner, 
-      nil_val, 
-      term, 
-      next.(x), 
-      next, 
-      y, 
-      combiner.(term.(x), acc)
-    )
+    combined = combiner.(term.(x), acc)
+    accumulate_tco(combiner, nil_val, term, next.(x), next, y, combined)
   end
 
   # exercise 1.42: Compose

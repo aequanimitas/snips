@@ -1,9 +1,10 @@
 defmodule Udemy.Cards do
   @moduledoc """
     Provides methods for creating and handling deck of cards
-  """ 
+  """
 
   @doc """
+
     Returns a list of strings representing a deck of playing cards
   """
   def create_deck do
@@ -16,7 +17,7 @@ defmodule Udemy.Cards do
   end
 
   def shuffle(deck) do
-    Enum.shuffle(deck) 
+    Enum.shuffle(deck)
   end
 
   @doc """
@@ -25,7 +26,7 @@ defmodule Udemy.Cards do
   ## Examples
 
     iex> Udemy.Cards.contains?(Udemy.Cards.create_deck(), "Ace of Malunggay")
-    false  
+    false
 
   """
   def contains?(deck, card) do
@@ -53,7 +54,7 @@ defmodule Udemy.Cards do
     binary = :erlang.term_to_binary(deck)
     File.write(filename, binary)
   end
-  
+
   def load(filename) do
     case File.read(filename) do
       # comparison and assignment on clauses
@@ -63,8 +64,8 @@ defmodule Udemy.Cards do
   end
 
   def create_hand(handsize) do
-    Udemy.Cards.create_deck
-    |> Udemy.Cards.shuffle
-    |> Udemy.Cards.deal(handsize) # 1st argument automatically passed, handsize is 2nd arg
+    create_deck
+    |> shuffle
+    |> deal(handsize)
   end
 end

@@ -47,7 +47,7 @@ defmodule Core.Enums do
     Combine lists into ordered collection
 
     ## Examples
-        
+
         iex> Enums.zip([1,2,3], ["a", "b", "c"])
         [{1, "a"}, {2, "b"}, {3, "c"}]
 

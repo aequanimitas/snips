@@ -1,7 +1,7 @@
 defmodule Lye.Kitchen do
-  @doc """
+  @moduledoc """
   Food can be taken only as many times as it was stored. Initial implementation starts as
-  stateless. 
+  stateless.
 
   ## Examples
   iex> pid = spawn(Elixr.Lye.Kitchen, :fridge1, [])
@@ -19,8 +19,8 @@ defmodule Lye.Kitchen do
   def fridge1 do
     receive do
       {sender, {:store, _food}} ->
-        # read as send to sender my process id, in case you want to communicate more, and
-        # also my message :ok
+        # read as send to sender my process id, in case you want to communicate
+        # more, and also my message :ok
         send sender, {self(), :ok}
         fridge1()
       {sender, {:take, _food}} ->
@@ -34,8 +34,8 @@ defmodule Lye.Kitchen do
 
   @doc """
   Now we store state on food_list. The list is maintained internally by
-  this process. The protocol (:store, :take) is explicitly passed by the messenger along
-  with its message
+  this process. The protocol (:store, :take) is explicitly passed by the
+  messenger along with its message
   """
   def fridge2(food_list) do
     receive do
@@ -44,11 +44,11 @@ defmodule Lye.Kitchen do
         fridge2([food | food_list])
       {sender, {:take, food}} ->
         case Enum.member?(food_list, food) do
-          true -> 
+          true ->
             # always send a message first before recursing to avoid deadlock
             send sender, {self(), :ok}
             fridge2(List.delete(food_list, food))
-          false -> 
+          false ->
             send sender, {self(), :not_found}
             fridge2(food_list)
         end
@@ -67,7 +67,7 @@ defmodule Lye.Kitchen do
       {_sender, message} -> message
     end
   end
-  
+
   def take(pid, food) do
     send pid, {self(), {:take, food}}
     receive do
@@ -79,7 +79,7 @@ defmodule Lye.Kitchen do
   Add helper fn for spawning the process, assists the end-user so that they don't do
   any new calls
   """
-  def start(), do: spawn(__MODULE__, :fridge2, [[]])
+  def start, do: spawn(__MODULE__, :fridge2, [[]])
   def start([]), do: spawn(__MODULE__, :fridge2, [[]])
   def start(food_list), do: spawn(__MODULE__, :fridge2, [food_list])
 
@@ -96,7 +96,7 @@ defmodule Lye.Kitchen do
       :timeout
     end
   end
-  
+
   def take2(pid, food) do
     send pid, {self(), {:take, food}}
     receive do

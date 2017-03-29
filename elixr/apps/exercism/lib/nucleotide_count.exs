@@ -23,7 +23,7 @@ defmodule NucleotideCount do
 
   @spec count([], char, non_neg_integer) :: non_neg_integer
   defp count([], nucleotide, counter) do
-    counter 
+    counter
   end
 
   defp count([head | tail], nucleotide, counter) do
@@ -31,7 +31,7 @@ defmodule NucleotideCount do
       count(tail, nucleotide, counter + 1)
     else
       count(tail, nucleotide, counter)
-    end 
+    end
   end
 
   @doc """
@@ -52,6 +52,6 @@ defmodule NucleotideCount do
   end
 
   defp histogram([head | tail], map) do
-    histogram(tail, %{map | head => map[head] + 1}) 
+    histogram(tail, %{map | head => map[head] + 1})
   end
 end

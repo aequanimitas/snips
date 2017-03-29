@@ -1,5 +1,8 @@
 defmodule Lye.Kitty.Server do
-  
+  @moduledoc """
+  Read and take notes on this chapter
+  """
+
   alias Lye.Kitty.Cat
 
   @doc """
@@ -68,7 +71,7 @@ defmodule Lye.Kitty.Server do
       {pid, ref, :terminate} ->
         send pid, {ref, :ok}
         terminate(cats)
-      _ -> 
+      _ ->
         IO.puts "Unknown message"
         loop(cats)
     end

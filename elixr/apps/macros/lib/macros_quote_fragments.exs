@@ -9,13 +9,20 @@ defmodule QuoteFragmentTest do
   end
 
   test "quoted expression throws error after evaluation" do
-    assert catch_error(quote(do: 1 + [] <> 9000) |> Code.eval_quoted)
+    expr = quote(do: 1 + [] <> 9000)
+    assert catch_error(expr |> Code.eval_quoted)
   end
 
   test "by fragments, imagine this is a 'basic building block' for bigger nested structures" do
     sum_expr = quote(do: a + b)
-    bind_expr = quote do a = 1; b = 2 end
-    final_expr = quote do unquote(bind_expr); unquote(sum_expr) end
+    bind_expr = quote do
+      a = 1
+      b = 2
+    end
+    final_expr = quote do
+      unquote(bind_expr)
+      unquote(sum_expr)
+    end
     {result, _bindings} = Code.eval_quoted(final_expr)
     assert result == 3
   end
@@ -33,15 +40,18 @@ defmodule QuoteFragmentTest do
 
   test "when injecting values, unquote can only translate and insert atoms, numbers, lists, strings and two-element tuples" do
     valid_exprs = [
-      {:a, &is_atom/1}, 
-      {1, &is_number/1}, 
+      {:a, &is_atom/1},
+      {1, &is_number/1},
       {[1,2,3], &is_list/1},
       {"hec", &is_bitstring/1},
       {{:ok, 1}, &is_tuple/1}
     ]
 
     Enum.each(valid_exprs, fn {val, func} ->
-      val = quote(do: unquote(val)) |> Code.eval_quoted |> elem(0)
+      val = quote(do: unquote(val))
+      val = val
+        |> Code.eval_quoted
+        |> elem(0)
       assert func.(val)
     end)
 
@@ -59,7 +69,11 @@ defmodule QuoteFragmentTest do
   end
 
   test "unquote can translate and insert other types with the help of Macro.escape, via explicit conversion" do
-    assert quote(do: unquote(Macro.escape({1,2,3}))) |> Code.eval_quoted |> Kernel.tuple_size() == 2
+    expr = {1,2,3} |> Macro.escape
+    expr = quote(do: unquote(expr))
+    assert expr
+      |> Code.eval_quoted
+      |> Kernel.tuple_size() == 2
   end
 
   # hold this test for now until you figure out how to properly catch the error

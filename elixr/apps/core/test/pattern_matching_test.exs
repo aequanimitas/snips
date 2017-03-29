@@ -5,8 +5,8 @@ defmodule Core.PatternMatchingTest do
   alias Core.PatternMatching, as: PT
 
   test "match the first two elements of a list, elixirconf" do
-    assert_raise MatchError, fn -> 
-      [a,a] = [2, 1, 0, 9] 
+    assert_raise MatchError, fn ->
+      [a,a] = [2, 1, 0, 9]
     end
   end
 

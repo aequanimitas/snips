@@ -3,10 +3,12 @@ defmodule Sicp.RangeTest do
   alias Sicp.Recursion.Range
 
   test "Sum" do
-    assert Range.looper(1, 5, fn x -> x end, fn x -> x + 1 end, &Range.add/2) == 15
+    result = Range.looper(1, 5, &(&1), &(&1), &Range.add/2)
+    assert result == 15
   end
 
   test "Product" do
-    assert Range.looper(1, 5, fn x -> x end, fn x -> x + 1 end, &Range.product/2) == 120
+    result = Range.looper(1, 5, &(&1), &(&1 + 1), &Range.product/2)
+    assert result == 120
   end
 end

@@ -13,21 +13,21 @@ defmodule Core.MythsTest do
   test "naive reverse" do
     assert Myths.naive_reverse([]) == []
     assert Myths.naive_reverse([1,2]) == [2,1]
-    assert Myths.naive_reverse(Enum.to_list(1..100)) == 
-           Enum.to_list(1..100) |> Enum.reverse
+    assert 1..100 |> Enum.to_list |> Myths.naive_reverse ==
+           1..100 |> Enum.to_list |> Enum.reverse
   end
 
   test "naive reverse but ok" do
     assert Myths.naive_reverse_but_ok([]) == []
     assert Myths.naive_reverse_but_ok([1,2]) == [2,1]
-    assert Myths.naive_reverse_but_ok(Enum.to_list(1..100)) == 
-           Enum.to_list(1..100) |> Enum.reverse
+    assert 1..100 |> Enum.to_list |> Myths.naive_reverse_but_ok ==
+           1..100 |> Enum.to_list |> Enum.reverse
   end
 
   test "vanilla reverse" do
     assert Myths.vanilla_reverse([]) == []
     assert Myths.vanilla_reverse([1,2]) == [2,1]
-    assert Myths.vanilla_reverse(Enum.to_list(1..100)) == 
-           Enum.to_list(1..100) |> Enum.reverse
+    assert Myths.vanilla_reverse(Enum.to_list(1..100)) ==
+           1..100 |> Enum.to_list |> Enum.reverse
   end
 end

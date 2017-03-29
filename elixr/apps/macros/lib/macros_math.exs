@@ -7,7 +7,7 @@ defmodule Macros.Math do
     quote do
       # all labels that were used in desctructuring seems "unavailable" until doing
       # an ```unquote```. Code below throws error
-      # IO.puts args 
+      # IO.puts args
       lhs = unquote lhs
       rhs = unquote rhs
       result = lhs + rhs

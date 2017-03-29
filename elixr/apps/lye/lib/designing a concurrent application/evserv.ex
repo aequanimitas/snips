@@ -4,24 +4,28 @@ defmodule Lye.DCA.Evserv do
   - list of clients
   - list of processes spawned
   """
-  
+
   alias Lye.DCA.Evserv.Event, as: EvEvent
   alias Lye.DCA.Evserv.State, as: EvState
   alias Lye.DCA.Event, as: Event
 
   def init do
     # leverage erlang code when necessarry, and this is one of those times where
-    # you need something that is not in Elixir. 
+    # you need something that is not in Elixir.
     loop %EvState{events: :orddict.new(), clients: :orddict.new()}
   end
 
-  # Main receiver for this module, all messages are caught and handled by this function
-  def loop(evstate = %EvState{events: events, clients: clients}) do
+  @doc """
+  Main receiver for this module, all messages are caught and handled by
+  this function
+  """
+  def loop(%EvState{events: events, clients: clients} = evstate) do
     receive do
       # handle subcribe messages
       {pid, msg_ref, {:subscribe, client}} ->
         # monitor client, user will be notified when it crashes
-        # this is also async, so it takes time before the signal reaches its receiver
+        # this is also async, so it takes time before the signal
+        # reaches its receiver
         ref = Process.monitor(client)
         # add client to subscribers, will be notified when an event is done
         new_clients = :orddict.store(ref, client, clients)
@@ -32,24 +36,28 @@ defmodule Lye.DCA.Evserv do
       {pid, msg_ref, {:add, name, description, timeout}} ->
         case valid_datetime(timeout) do
           true ->
-            event_pid = Event.start_link(name, timeout) 
-            events = :orddict.store(name, %EvEvent{name: name,
-                                                       description: description,
-                                                       pid: event_pid,
-                                                       timeout: timeout}, events)
+            event_pid = Event.start_link(name, timeout)
+            ev_event = %{
+              name: name,
+              description: description,
+              pid: event_pid,
+              timeout: timeout
+            }
+            ev_event = Map.merge(ev_event, %EvEvent{})
+            events = :orddict.store(name, ev_event, events)
             send pid, {msg_ref, :ok}
             loop %{evstate | events: events}
           {:error, reason} ->
             send pid, {msg_ref, {:error, reason}}
             loop evstate
         end
-      
+
       # cancelling an event, check if event is in list
       {pid, msg_ref, {:cancel, name}} ->
         events = case :orddict.find(name, events) do
                    {:ok, e} ->
                      Event.cancel(e.pid)
-                     :orddict.erase(name, events) 
+                     :orddict.erase(name, events)
                    :error ->
                      events
                  end
@@ -59,7 +67,8 @@ defmodule Lye.DCA.Evserv do
       {:done, name} ->
         case :orddict.find(name, events) do
           {:ok, event} ->
-            send_to_clients({:done, event.name, event.description}, evstate.clients)
+            done_msg = {:done, event.name, event.description}
+            send_to_clients(done_msg, evstate.clients)
             events = :orddict.erase(name, evstate.events)
             loop %{evstate | events: events}
           :error ->
@@ -67,11 +76,11 @@ defmodule Lye.DCA.Evserv do
         end
 
       :shutdown -> exit(:shutdown)
-      {:DOWN, ref, :process, _pid, _reason} -> 
+      {:DOWN, ref, :process, _pid, _reason} ->
         loop %{evstate | clients: :orddict.erase(ref, clients)}
-      # by using the pattern __MODULE__.fn (fully qualified calls) we can call the loop
-      # loop in new version of code, if exists
-      :code_change -> __MODULE__.loop evstate 
+      # by using the pattern __MODULE__.fn (fully qualified calls)
+      # we can call the loop in new version of code, if exists
+      :code_change -> __MODULE__.loop evstate
       _ ->
         IO.puts "Unknown message"
         loop evstate
@@ -79,7 +88,7 @@ defmodule Lye.DCA.Evserv do
   end
 
   def send_to_clients(msg, clients) do
-    :orddict.map(fn(_ref, pid) -> send pid, msg; end, clients)
+    :orddict.map(fn(_ref, pid) -> send pid, msg end, clients)
   end
 
   def valid_datetime({date, time}) do
@@ -98,25 +107,23 @@ defmodule Lye.DCA.Evserv do
                                m >= 0 and m < 60 and
                                s >= 0 and s < 60, do: true
 
-  # do a catch all here instead of matching each element 
+  # do a catch all here instead of matching each element
   def valid_time(_), do: {:error, "invalid format"}
 
   # interfaces start here
-  def start() do
+  def start do
     pid = spawn(__MODULE__, :init, [])
     Process.register(pid, __MODULE__)
     pid
   end
 
-  def start_link() do
+  def start_link do
     pid = spawn_link(__MODULE__, :init, [])
     Process.register(pid, __MODULE__)
     pid
   end
 
-  def terminate() do
-    send __MODULE__, :shutdown
-  end
+  def terminate, do: send __MODULE__, :shutdown
 
   # abstraction for subscribing
   def subscribe(pid) do

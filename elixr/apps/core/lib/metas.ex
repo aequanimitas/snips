@@ -1,4 +1,6 @@
 defmodule Elixr.Core.Metas do
+  @moduledoc false
+
   alias IO.ANSI
 
   @color_reset "\e[39m"

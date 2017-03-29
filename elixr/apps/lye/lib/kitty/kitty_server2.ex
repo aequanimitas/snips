@@ -1,4 +1,8 @@
 defmodule Lye.Kitty.ServerTwo do
+  @moduledoc """
+  Read this chapter again
+  """
+
   alias Lye.Kitty.Cat
   alias Lye.Kitty.MyServer
 
@@ -13,7 +17,7 @@ defmodule Lye.Kitty.ServerTwo do
     MyServer.call(pid, {:order, name, color, description})
   end
 
-  # async, not blocking, no immediate ```receive``` calls 
+  # async, not blocking, no immediate ```receive``` calls
   def return_cat(pid, cat) do
     # Let MyServer handle message sending
     # send pid, {:return, cat}

@@ -1,5 +1,5 @@
 defmodule Core.Myths do
-  @doc """
+  @moduledoc """
   From http://erlang.org/doc/efficiency_guide/myths.html#id60476
   """
   def naive_reverse([h|t]), do: naive_reverse(t) ++ [h]
