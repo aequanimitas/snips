@@ -1,8 +1,41 @@
+**Erlang is about writing highly available systems, systems that run forever
+and are always able to meaningfully respond to clients**
+
+## Erlang Worldview
+- Everything is a process.
+- Processes are strongly isolated.
+- Process creation and destruction is a lightweight operation.
+- Message passing is the only way for processes to interact.
+- Processes can have unique names.
+- If you know the name of a process you can send it a message.
+- Processes share no resources.
+- Error handling is non-local.
+- Processes do what they are supposed to do or fail.
+
+## Challenges
+- minimize, isolate and recover from the effects of runtime errors (fault tolerance)
+- handle load increase by adding more hardware without changing or
+  redeploying the code (scalability)
+- run the system in multiple machines so that others can take over if one
+  fails (distribution)
+
+**BEAM == Erlang VM**
+
 ## Concurrency and Parallelism
 
 Both means processes running independently, the difference is in concurrency, 
 they don’t all run necessarily at the same time, while parallelism means running 
 all at the same time
+
+- Two concurrent things == Two execution contexts, parallel processing doesn't
+  happen automatically, it all depends on the number of cores.
+- Single core == no parallel execution
+- Concurrency by itself doesn't speed things up
+- Process creation is the mechanism to run something concurrently. After execution,
+  the memory is released
+- When data is passed from one process to another, it is deep-copied since
+  both processed can't share memory
+- processes' order of execution is not guaranteed
 
 ## Scalability
 - Users/Processes only react when a specific event happens 
@@ -63,6 +96,16 @@ SMP - Symmetrical Multi Processor
 ```receive``` the variable binds in the messages received
 
 on the ```Dolphin``` example, after the spawned process receives the message, it
-is immediately killed. 
+is immediately killed. Do a test, send a message again to the process and it's
+only reply is an ```:ok``` atom, maybe this means the message was sent
 
 on ```dolphin3/0```, recursion is used to bypass creating new processes
+
+```receive``` is like a "IO blocking" mechanism
+
+- Synchronous sending: cooperation between two processes by using the basic
+  async capabilities of Elixir/Erlang
+- ```self()``` == PID of calling process (function, shell, etc.)
+- sending a message to process that is doing some sort of heavy computation is
+  not going to stop its activity, the message will be pushed at the tail of
+  it message stack / mailbox
