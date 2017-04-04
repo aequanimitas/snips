@@ -1,7 +1,7 @@
 defmodule Lye.Kitchen do
   @moduledoc """
-  Food can be taken only as many times as it was stored. Initial implementation starts as
-  stateless.
+  Food can be taken only as many times as it was stored. Initial implementation 
+  starts as stateless.
 
   ## Examples
   iex> pid = spawn(Elixr.Lye.Kitchen, :fridge1, [])
@@ -58,8 +58,9 @@ defmodule Lye.Kitchen do
   end
 
   @doc """
-  Hide implementation details and just pass the process id and message. I guess this is
-  already CQRS. Let fridge2 handle the calls, and self() maps to the PID of the caller(?)
+  Hide implementation details and just pass the process id and message. I guess 
+  this is already CQRS. Let fridge2 handle the calls, and self() maps to the 
+  PID of the caller(?)
   """
   def store(pid, food) do
     send pid, {self(), {:store, food}}
@@ -76,17 +77,17 @@ defmodule Lye.Kitchen do
   end
 
   @doc """
-  Add helper fn for spawning the process, assists the end-user so that they don't do
-  any new calls
+  Add helper fn for spawning the process, assists the end-user so that they 
+  don't do any new calls
   """
   def start, do: spawn(__MODULE__, :fridge2, [[]])
   def start([]), do: spawn(__MODULE__, :fridge2, [[]])
   def start(food_list), do: spawn(__MODULE__, :fridge2, [food_list])
 
   @doc """
-  In case of deadlock, show error to user. The ```after``` will be triggered when no pattern
-  mathes the Match pattern. Time in ```after``` can be set to ```infinity```, useful when
-  a result ix expected, even if it is an error.
+  In case of deadlock, show error to user. The ```after``` will be triggered 
+  when no pattern mathes the Match pattern. Time in ```after``` can be set 
+  to ```infinity```, useful when a result ix expected, even if it is an error.
   """
   def store2(pid, food) do
     send pid, {self(), {:store, food}}
