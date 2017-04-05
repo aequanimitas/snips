@@ -13,26 +13,13 @@ defmodule NucleotideCount do
   1
   """
   @spec count([char], char) :: non_neg_integer
-  def count(strand, nucleotide) do
-    if Enum.empty?(strand) do
-      0
-    else
-      count(strand, nucleotide, 0)
-    end
-  end
+  def count(strand, nuc) when length(strand) == 0, do: 0
+  def count(strand, nuc), do: count(strand, nuc, 0)
 
   @spec count([], char, non_neg_integer) :: non_neg_integer
-  defp count([], nucleotide, counter) do
-    counter
-  end
-
-  defp count([head | tail], nucleotide, counter) do
-    if head == nucleotide do
-      count(tail, nucleotide, counter + 1)
-    else
-      count(tail, nucleotide, counter)
-    end
-  end
+  defp count([], nuc, ct), do: ct
+  defp count([h | t], nuc, ct) when h == nuc, do: count(t, nuc, ct + 1)
+  defp count([h | t], nuc, ct), do: count(t, nuc, ct)
 
   @doc """
   Returns a summary of counts by nucleotide.
@@ -47,11 +34,9 @@ defmodule NucleotideCount do
     histogram(strand, %{?A => 0, ?T => 0, ?C => 0, ?G => 0})
   end
 
-  defp histogram([], map) do
-    map
-  end
+  defp histogram([], map), do: map
 
   defp histogram([head | tail], map) do
-    histogram(tail, %{map | head => map[head] + 1})
+    histogram(tail, %{map | head => map[head] + 1}) 
   end
 end
