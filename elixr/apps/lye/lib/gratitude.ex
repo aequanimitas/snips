@@ -40,23 +40,33 @@ defmodule Lye.Gratitude do
     pool(1..1000)
   end
 
+  @doc """
+  Seperate functions that do state mutations from sending messages
+  """
   def add(pid, item) do
+    # subtle message for LIFO
     send pid, {self(), {:add, item}}
     receive do
-      {:ok, _pid, item} ->
-        IO.puts "item #{item} added"
-        :ok
+      {:ok, _, item} ->
+        IO.puts "thankful that: #{item}"
     after 3000 ->
       :timeout
     end
   end
 
+  @doc """
+  Seperate functions that do state mutations from sending messages
+  """
+  def remove(pid, item) do
+    send pid, {self(), {:add, item}}
+  end
+
   def all(pid) do
     send pid, {self(), :list_all}
     receive do
-      lst ->
+      {:ok, _, lst} ->
         grateful_things = Enum.join(lst, ", ")
-        IO.puts "You are thankful because you are: " <> grateful_things
+        IO.puts "You are thankful because: " <> grateful_things
         :ok
     after 3000 ->
       :timeout
@@ -66,11 +76,26 @@ defmodule Lye.Gratitude do
   def gratitude_list(lst) do
     receive do
       {from, {:add, item}} ->
-       # send confirmation that message was received
-       send from, {:ok, self(), item}
-       gratitude_list [item | lst]
+        # send confirmation that message was received
+        send from, {:ok, self(), item}
+        gratitude_list [item | lst]
+      {from, {:remove, item}} ->
+        lst = Enum.reduce(lst, [], fn x, acc ->
+          case x !== item do
+            true -> [item | acc]
+            false -> acc
+          end
+        end)
+        send from, {:ok, self(), lst}
+        gratitude_list lst
       {from, :list_all} ->
-        send from, lst
+        send from, {:ok, self(), lst}
+        gratitude_list lst
+      # add a catch all clause so messages that doesn't match the general 
+      # pattern doesn't get placed in the save queue and pushed again to the
+      # mailbox
+      message ->
+        IO.puts "Unknown message: #{inspect message}"
         gratitude_list lst
     end
   end
