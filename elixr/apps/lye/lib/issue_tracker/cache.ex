@@ -21,7 +21,7 @@ defmodule Lye.IssueTracker.Cache do
       true ->
         {:reply, Map.get(state, tracker_name), state}
       false ->
-        {_, new_server} = Server.start
+        {_, new_server} = Server.start({tracker_name, []})
         {:reply, new_server, Map.put(state, tracker_name, new_server)}
     end
   end
@@ -29,6 +29,8 @@ defmodule Lye.IssueTracker.Cache do
   def server_process(cache_pid, tracker_name) do
     GenServer.call cache_pid, {:server_process, tracker_name}
   end
+
+  # naive benchmarking utils
 
   defp measure(cache_pid) do
     1..100_000
