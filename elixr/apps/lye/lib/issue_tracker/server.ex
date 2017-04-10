@@ -1,23 +1,19 @@
 defmodule Lye.IssueTracker.Server do
   use GenServer
 
+  import Logger
+
   alias Lye.IssueTracker.Database
 
-  def start initial_state do
-    GenServer.start(
-      __MODULE__, 
-      initial_state, 
-      name: 
-        initial_state
-        |> elem(0)
-        |> String.to_atom
-    )
+  def start {name, initial_state} do
+    GenServer.start __MODULE__, {name, initial_state}, name: String.to_atom(name)
   end
 
   # callbacks
 
-  def init(db_name) do
-    {:ok, {db_name, Database.get(db_name) || []}}
+  def init({db_name, initial_state}) do
+    Logger.debug db_name
+    {:ok, {db_name, Database.get(db_name) || initial_state}}
   end
 
   def handle_cast({:add, issue}, {name, issues}) do

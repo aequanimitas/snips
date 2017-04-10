@@ -15,7 +15,7 @@ defmodule Lye.IssueTracker.Cache do
 
   # callbacks
 
-  ## create a new statefule server process if it doesn't exist
+  ## create a new stateful server process if it doesn't exist
   def handle_call({:server_process, tracker_name}, _from, state) do
     case Map.has_key?(state, tracker_name) do
       true ->
