@@ -24,16 +24,6 @@ defmodule Lye.IssueTracker.Database do
     {:ok, pool}
   end
 
-  def handle_cast({:store, key, data, worker}, pool) do
-    DBWorker.store worker, key, data
-    {:noreply, pool}
-  end
-
-  def handle_call({:get, key, worker}, _from, pool) do
-    data = DBWorker.get worker, key
-    {:reply, data, pool}
-  end
-
   def handle_call({:get_worker, key}, _from, pool) do
     worker = Map.get(pool, "#{:erlang.phash2(key, 3)}")
     {:reply, worker, pool}
@@ -42,13 +32,15 @@ defmodule Lye.IssueTracker.Database do
   # Interface
 
   def store(key, data) do
-    worker = get_worker(key)
-    GenServer.cast :database_server, {:store, key, data, worker}
+    key 
+    |> get_worker
+    |> DBWorker.store(key, data)
   end
 
   def get(key) do
-    worker = get_worker(key)
-    GenServer.call :database_server, {:get, key, worker}
+    key
+    |> get_worker
+    |> DBWorker.get(key)
   end
 
   defp get_worker(key) do

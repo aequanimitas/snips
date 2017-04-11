@@ -1,5 +1,7 @@
 defmodule Lye.IssueTracker.DBWorker do
 
+  import Logger
+
   def start(db_folder) do
     GenServer.start __MODULE__, db_folder
   end
@@ -33,6 +35,7 @@ defmodule Lye.IssueTracker.DBWorker do
   end
 
   def get(worker_pid, key) do
+    Logger.info inspect worker_pid
     GenServer.call worker_pid, {:get, key}
   end
 

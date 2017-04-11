@@ -52,3 +52,15 @@ concurrent read/writes is not a good idea in this setup.
   process the genserver will reply, but the ```handle_call``` immediately returns
   a ```{:noreply, db_folder}``` which signals that the central server can't reply
   at the moment
+
+#### Reasoning with processes
+- server process just accepts and replies to requests, managing the state is
+  optional
+- mindmap these processes as services, doing small computations, responsible for
+  a small task. Each service handles a list, and handles the same list to avoid
+  race conditions and keeping consistency.
+- most of the time, processes are independent, but in some cases they need to
+  cooperate using ```cast``` and ```calls```.
+- ```cast``` is a bit problematic in the sense that you don't know if your message
+  was actually received. ```calls``` has also its own downsides because its a
+  blocking request. 
