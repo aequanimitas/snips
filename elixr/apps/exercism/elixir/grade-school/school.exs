@@ -10,12 +10,8 @@ defmodule School do
   """
   @spec add(map, String.t, integer) :: map
   def add(db, name, grade) do
-    db = if Enum.empty?(grade(db, grade)) do
-      Map.put(db, grade, [])
-    else
-      db
-    end
-    Map.put(db, grade, [name | Map.get(db, grade)])
+    students = grade(db, grade)
+    put_in db[grade], [name | students]
   end
 
   @doc """
@@ -23,9 +19,9 @@ defmodule School do
   """
   @spec grade(map, integer) :: [String.t]
   def grade(db, grade) do
-    case Map.has_key?(db, grade) do
-      true -> Map.get(db, grade)
-      false -> []
+    case db[grade] == nil do
+      true -> []
+      false -> db[grade]
     end
   end
 
